@@ -54,7 +54,11 @@ class EncryptedDeliverySettingsRepository(
             dailyRevenueGoal = prefs.getFloat(KEY_DAILY_REVENUE_GOAL, defaultSettings.dailyRevenueGoal.toFloat()).toDouble(),
             autoAcceptGreenOffers = prefs.getBoolean(KEY_AUTO_ACCEPT_GREEN, defaultSettings.autoAcceptGreenOffers),
             autoAcceptDelaySeconds = prefs.getInt(KEY_AUTO_ACCEPT_DELAY, defaultSettings.autoAcceptDelaySeconds),
-            soundAlertsEnabled = prefs.getBoolean(KEY_SOUND_ALERTS, defaultSettings.soundAlertsEnabled)
+            soundAlertsEnabled = prefs.getBoolean(KEY_SOUND_ALERTS, defaultSettings.soundAlertsEnabled),
+            rainModeEnabled = prefs.getBoolean(KEY_RAIN_MODE_ENABLED, defaultSettings.rainModeEnabled),
+            rainFloorBonus = prefs.getFloat(KEY_RAIN_FLOOR_BONUS, defaultSettings.rainFloorBonus.toFloat()).toDouble(),
+            fuelStateCode = prefs.getString(KEY_FUEL_STATE_CODE, defaultSettings.fuelStateCode) ?: defaultSettings.fuelStateCode,
+            bikeElevationAlertEnabled = prefs.getBoolean(KEY_BIKE_ELEVATION_ENABLED, defaultSettings.bikeElevationAlertEnabled)
         )
     }
 
@@ -80,6 +84,10 @@ class EncryptedDeliverySettingsRepository(
             .putBoolean(KEY_AUTO_ACCEPT_GREEN, settings.autoAcceptGreenOffers)
             .putInt(KEY_AUTO_ACCEPT_DELAY, settings.autoAcceptDelaySeconds)
             .putBoolean(KEY_SOUND_ALERTS, settings.soundAlertsEnabled)
+            .putBoolean(KEY_RAIN_MODE_ENABLED, settings.rainModeEnabled)
+            .putFloat(KEY_RAIN_FLOOR_BONUS, settings.rainFloorBonus.toFloat())
+            .putString(KEY_FUEL_STATE_CODE, settings.fuelStateCode)
+            .putBoolean(KEY_BIKE_ELEVATION_ENABLED, settings.bikeElevationAlertEnabled)
             .apply()
     }
 
@@ -113,5 +121,9 @@ class EncryptedDeliverySettingsRepository(
         private const val KEY_AUTO_ACCEPT_GREEN = "auto_accept_green_offers"
         private const val KEY_AUTO_ACCEPT_DELAY = "auto_accept_delay_seconds"
         private const val KEY_SOUND_ALERTS = "sound_alerts_enabled"
+        private const val KEY_RAIN_MODE_ENABLED = "rain_mode_enabled"
+        private const val KEY_RAIN_FLOOR_BONUS = "rain_floor_bonus"
+        private const val KEY_FUEL_STATE_CODE = "fuel_state_code"
+        private const val KEY_BIKE_ELEVATION_ENABLED = "bike_elevation_enabled"
     }
 }

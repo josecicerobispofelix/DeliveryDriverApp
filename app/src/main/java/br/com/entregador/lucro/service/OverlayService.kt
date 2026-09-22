@@ -124,6 +124,9 @@ class OverlayService : Service() {
                 val isRiskAreaExtra = intent.getBooleanExtra(EXTRA_IS_RISK_AREA, false)
                 val riskAreaNameExtra = intent.getStringExtra(EXTRA_RISK_AREA_NAME)
                 val orderCount = intent.getIntExtra(EXTRA_ORDER_COUNT, 1)
+                val isRainingExtra = intent.getBooleanExtra(EXTRA_IS_RAINING, false)
+                val isSteepExtra = intent.getBooleanExtra(EXTRA_IS_STEEP, false)
+                val elevationGainExtra = intent.getIntExtra(EXTRA_ELEVATION_GAIN, 0)
 
                 val offer = DeliveryOffer(
                     platform = platform,
@@ -135,7 +138,13 @@ class OverlayService : Service() {
                     orderCount = orderCount
                 )
                 val settings = EncryptedDeliverySettingsRepository(this).getSettings()
-                var calculation = DeliveryCalculator.calculate(offer, settings)
+                var calculation = DeliveryCalculator.calculate(
+                    offer = offer,
+                    settings = settings,
+                    isRaining = isRainingExtra,
+                    isSteepIncline = isSteepExtra,
+                    elevationGainMeters = elevationGainExtra
+                )
 
                 if (isRiskAreaExtra) {
                     calculation = calculation.copy(
@@ -822,6 +831,35 @@ class OverlayService : Service() {
                 layoutMultiOrder?.visibility = View.GONE
             }
 
+            val currentSettings = EncryptedDeliverySettingsRepository(this).getSettings()
+
+            // 4. Badge de Modo Chuva (Fase 8)
+            val layoutRainMode = view.findViewById<View>(R.id.layoutRainModeBadge)
+            val tvRainMode = view.findViewById<TextView>(R.id.tvRainModeBadge)
+            if (result.isRainActive) {
+                layoutRainMode?.visibility = View.VISIBLE
+                val bonus = currentSettings.rainFloorBonus
+                tvRainMode?.text = String.format(
+                    Locale.getDefault(),
+                    "🌧️ MODO CHUVA: Piso +R$ %.2f (Min R$ %.2f)",
+                    bonus,
+                    result.effectiveMinFloor
+                )
+            } else {
+                layoutRainMode?.visibility = View.GONE
+            }
+
+            // 5. Badge de Subida Íngreme / Altimetria (Fase 8)
+            val layoutSteep = view.findViewById<View>(R.id.layoutSteepInclineBadge)
+            val tvSteep = view.findViewById<TextView>(R.id.tvSteepInclineBadge)
+            if (result.isSteepIncline) {
+                layoutSteep?.visibility = View.VISIBLE
+                val elevText = if (result.elevationGainMeters > 0) " (+${result.elevationGainMeters}m)" else ""
+                tvSteep?.text = "🚴⚠️ SUBIDA ÍNGREME DETECTADA$elevText"
+            } else {
+                layoutSteep?.visibility = View.GONE
+            }
+
             tvNetProfit.text = String.format(Locale.getDefault(), "R$ %.2f", result.netProfit)
             tvRatePerKm.text = String.format(Locale.getDefault(), "R$ %.2f/km", result.earningsPerKm)
             tvRatePerHour.text = String.format(Locale.getDefault(), "R$ %.2f/h", result.earningsPerHour)
@@ -862,7 +900,6 @@ class OverlayService : Service() {
             val tvAutoRejectCountdown = view.findViewById<TextView>(R.id.tvAutoRejectCountdown)
             val btnCancelAutoReject = view.findViewById<TextView>(R.id.btnCancelAutoReject)
 
-            val currentSettings = EncryptedDeliverySettingsRepository(this).getSettings()
             val shouldAutoReject = (result.trafficLightStatus == TrafficLightStatus.RED && currentSettings.autoRejectRedOffers) ||
                     (result.isRiskArea && currentSettings.autoRejectRiskAreas)
 
@@ -1047,6 +1084,9 @@ class OverlayService : Service() {
         const val EXTRA_IS_RISK_AREA = "extra_is_risk_area"
         const val EXTRA_RISK_AREA_NAME = "extra_risk_area_name"
         const val EXTRA_ORDER_COUNT = "extra_order_count"
+        const val EXTRA_IS_RAINING = "extra_is_raining"
+        const val EXTRA_IS_STEEP = "extra_is_steep"
+        const val EXTRA_ELEVATION_GAIN = "extra_elevation_gain"
 
         /**
          * Inicializa o Foreground Service e exibe a Bolha Flutuante imediatamente.
@@ -1075,7 +1115,10 @@ class OverlayService : Service() {
             destination: String? = null,
             isRiskArea: Boolean = false,
             riskAreaName: String? = null,
-            orderCount: Int = 1
+            orderCount: Int = 1,
+            isRaining: Boolean = false,
+            isSteepIncline: Boolean = false,
+            elevationGainMeters: Int = 0
         ) {
             isBubbleActive = true
             val intent = Intent(context, OverlayService::class.java).apply {
@@ -1088,6 +1131,9 @@ class OverlayService : Service() {
                 putExtra(EXTRA_IS_RISK_AREA, isRiskArea)
                 putExtra(EXTRA_RISK_AREA_NAME, riskAreaName)
                 putExtra(EXTRA_ORDER_COUNT, orderCount)
+                putExtra(EXTRA_IS_RAINING, isRaining)
+                putExtra(EXTRA_IS_STEEP, isSteepIncline)
+                putExtra(EXTRA_ELEVATION_GAIN, elevationGainMeters)
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(intent)

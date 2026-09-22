@@ -19,7 +19,13 @@ object DeliveryCalculator {
      * @param settings Configurações financeiras e operacionais do entregador.
      * @return [DeliveryCalculationResult] com os resultados do cálculo.
      */
-    fun calculate(offer: DeliveryOffer, settings: DeliverySettings): DeliveryCalculationResult {
+    fun calculate(
+        offer: DeliveryOffer,
+        settings: DeliverySettings,
+        isRaining: Boolean = false,
+        isSteepIncline: Boolean = false,
+        elevationGainMeters: Int = 0
+    ): DeliveryCalculationResult {
         // Se vehicleType for "MOTO": CustoCombustivelPorKm = fuelPricePerLiter / fuelConsumptionKmPerLiter.
         // Se for "BIKE", CustoCombustivelPorKm = 0.0.
         val custoCombustivelPorKm = if (settings.vehicleType.equals(DeliverySettings.VEHICLE_BIKE, ignoreCase = true)) {
@@ -49,10 +55,11 @@ object DeliveryCalculator {
             0.0
         }
 
-        // Tempo total considerando retorno proporcional e espera por pedido:
+        // Tempo total considerando retorno proporcional, espera por pedido e relevo de bike:
         val effectiveTravelMinutes = offer.estimatedTimeMinutes * returnMultiplier
         val effectiveWaitBufferMinutes = settings.restaurantWaitBufferMinutes * offer.orderCount.coerceAtLeast(1)
-        val tempoTotalMinutos = effectiveTravelMinutes + effectiveWaitBufferMinutes
+        val bikeSteepPenaltyMinutes = if (isSteepIncline && settings.isBike && settings.bikeElevationAlertEnabled) 6.0 else 0.0
+        val tempoTotalMinutos = effectiveTravelMinutes + effectiveWaitBufferMinutes + bikeSteepPenaltyMinutes
         val tempoTotalHoras = tempoTotalMinutos / 60.0
 
         // GanhoPorHora = LucroLiquido / TempoTotalHoras (trate divisão por zero)
@@ -69,9 +76,17 @@ object DeliveryCalculator {
         val meetsKmTarget = ganhoPorKm >= settings.targetMinPerKm
         val meetsHourTarget = ganhoPorHora >= settings.targetMinPerHour
 
+        // Piso Dinâmico de Mau Tempo / Chuva (Fase 8)
+        val isRainActive = isRaining && settings.rainModeEnabled
+        val effectiveMinFloor = if (isRainActive) {
+            settings.minGrossValueFloor + settings.rainFloorBonus
+        } else {
+            settings.minGrossValueFloor
+        }
+
         // Filtros avançados anti-prejuízo
         val violatesMaxDistance = settings.maxDistanceKm > 0.0 && offer.totalDistanceKm > settings.maxDistanceKm
-        val violatesMinGrossFloor = settings.minGrossValueFloor > 0.0 && offer.grossValue < settings.minGrossValueFloor
+        val violatesMinGrossFloor = effectiveMinFloor > 0.0 && offer.grossValue < effectiveMinFloor
 
         // Detecção de Área de Risco (Fase 5)
         var isRiskArea = false
@@ -122,7 +137,12 @@ object DeliveryCalculator {
             destinationNeighborhood = offer.destinationNeighborhood,
             orderCount = offer.orderCount,
             netProfitPerOrder = lucroLiquido / offer.orderCount.coerceAtLeast(1),
-            grossValuePerOrder = offer.grossValue / offer.orderCount.coerceAtLeast(1)
+            grossValuePerOrder = offer.grossValue / offer.orderCount.coerceAtLeast(1),
+            isRainActive = isRainActive,
+            effectiveMinFloor = effectiveMinFloor,
+            appliedFloorBonus = if (isRainActive) settings.rainFloorBonus else 0.0,
+            isSteepIncline = isSteepIncline && settings.isBike && settings.bikeElevationAlertEnabled,
+            elevationGainMeters = elevationGainMeters
         )
     }
 

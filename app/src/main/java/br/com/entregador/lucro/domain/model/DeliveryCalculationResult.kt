@@ -24,5 +24,14 @@ data class DeliveryCalculationResult(
     val destinationNeighborhood: String? = null,
     val orderCount: Int = 1,
     val netProfitPerOrder: Double = netProfit / orderCount.coerceAtLeast(1),
-    val grossValuePerOrder: Double = 0.0
-)
+    val grossValuePerOrder: Double = 0.0,
+    // Telemetria Inteligente (Fase 8)
+    val isRainActive: Boolean = false,
+    val effectiveMinFloor: Double = 0.0,
+    val appliedFloorBonus: Double = 0.0,
+    val isSteepIncline: Boolean = false,
+    val elevationGainMeters: Int = 0
+) {
+    val isRaining: Boolean
+        get() = isRainActive
+}

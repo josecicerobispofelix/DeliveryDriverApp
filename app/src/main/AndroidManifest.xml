@@ -11,6 +11,11 @@
     <!-- Permissão de serviço em primeiro plano para casos de uso especiais (Android 14+ / API 34+) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
+    <!-- Permissões de Rede e Conectividade para Telemetria Inteligente (APIs A, B, C e D) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <!-- Permissão para exibir notificações persistentes do serviço (Android 13+ / API 33+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 

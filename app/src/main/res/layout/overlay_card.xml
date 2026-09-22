@@ -125,6 +125,52 @@
             android:gravity="center" />
     </LinearLayout>
 
+    <!-- Badge de Modo Chuva (Fase 8) -->
+    <LinearLayout
+        android:id="@+id/layoutRainModeBadge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#330284C7"
+        android:padding="5dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvRainModeBadge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌧️ MODO CHUVA: Piso mínimo elevado (+R$ 3,00)"
+            android:textColor="#38BDF8"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Badge de Subida Íngreme / Relevo para Bike (Fase 8) -->
+    <LinearLayout
+        android:id="@+id/layoutSteepInclineBadge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#33D97706"
+        android:padding="5dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvSteepInclineBadge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🚴⚠️ LADEIRA ÍNGREME (+45m elevação)"
+            android:textColor="#FBBF24"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
+
     <!-- Métrica Principal: Lucro Líquido -->
     <LinearLayout
         android:layout_width="match_parent"

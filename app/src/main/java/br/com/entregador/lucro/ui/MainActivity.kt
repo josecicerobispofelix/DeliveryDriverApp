@@ -16,11 +16,19 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+import br.com.entregador.lucro.network.CommunityRiskClient
+import br.com.entregador.lucro.network.ElevationClient
+import br.com.entregador.lucro.network.FuelPriceClient
+import br.com.entregador.lucro.network.WeatherClient
 import br.com.entregador.lucro.R
 import br.com.entregador.lucro.data.repository.DeliveryHistoryRepository
 import br.com.entregador.lucro.data.repository.DeliverySettingsRepository
@@ -99,12 +107,33 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cgRiskAreas: ChipGroup
     private val riskAreas = mutableListOf<String>()
 
+    // Telemetria Módulo A: Base Comunitária de Áreas de Risco
+    private lateinit var btnSyncCommunityRisk: MaterialButton
+    private lateinit var tvCommunityRiskSyncStatus: TextView
+
+    // Telemetria Módulo B: Piso Dinâmico de Mau Tempo / Chuva (Open-Meteo)
+    private lateinit var cardRainMode: MaterialCardView
+    private lateinit var swRainMode: SwitchMaterial
+    private lateinit var tvRainStatus: TextView
+    private lateinit var etRainFloorBonus: EditText
+    private lateinit var btnCheckWeatherNow: MaterialButton
+
     // Views de Configurações
     private lateinit var rgVehicleType: RadioGroup
     private lateinit var rbMoto: RadioButton
     private lateinit var rbBike: RadioButton
+
+    // Telemetria Módulo D: Alerta de Subidas / Relevo para Bike
+    private lateinit var layoutBikeElevation: LinearLayout
+    private lateinit var swBikeElevation: SwitchMaterial
+
     private lateinit var tilFuelPrice: TextInputLayout
     private lateinit var etFuelPrice: EditText
+
+    // Telemetria Módulo C: Sincronização de Preço Médio ANP por Estado
+    private lateinit var layoutFuelAnpSync: LinearLayout
+    private lateinit var etFuelStateCode: EditText
+    private lateinit var btnSyncFuelPrice: MaterialButton
     private lateinit var tilFuelConsumption: TextInputLayout
     private lateinit var etFuelConsumption: EditText
     private lateinit var tilMaintenanceCost: TextInputLayout
@@ -263,12 +292,27 @@ class MainActivity : AppCompatActivity() {
         btnAddRiskArea = findViewById(R.id.btnAddRiskArea)
         tvRiskAreasCount = findViewById(R.id.tvRiskAreasCount)
         cgRiskAreas = findViewById(R.id.cgRiskAreas)
+        btnSyncCommunityRisk = findViewById(R.id.btnSyncCommunityRisk)
+        tvCommunityRiskSyncStatus = findViewById(R.id.tvCommunityRiskSyncStatus)
+
+        // Telemetria Chuva (Módulo B)
+        cardRainMode = findViewById(R.id.cardRainMode)
+        swRainMode = findViewById(R.id.swRainMode)
+        tvRainStatus = findViewById(R.id.tvRainStatus)
+        etRainFloorBonus = findViewById(R.id.etRainFloorBonus)
+        btnCheckWeatherNow = findViewById(R.id.btnCheckWeatherNow)
 
         rgVehicleType = findViewById(R.id.rgVehicleType)
         rbMoto = findViewById(R.id.rbMoto)
         rbBike = findViewById(R.id.rbBike)
+        layoutBikeElevation = findViewById(R.id.layoutBikeElevation)
+        swBikeElevation = findViewById(R.id.swBikeElevation)
+
         tilFuelPrice = findViewById(R.id.tilFuelPrice)
         etFuelPrice = findViewById(R.id.etFuelPrice)
+        layoutFuelAnpSync = findViewById(R.id.layoutFuelAnpSync)
+        etFuelStateCode = findViewById(R.id.etFuelStateCode)
+        btnSyncFuelPrice = findViewById(R.id.btnSyncFuelPrice)
         tilFuelConsumption = findViewById(R.id.tilFuelConsumption)
         etFuelConsumption = findViewById(R.id.etFuelConsumption)
         tilMaintenanceCost = findViewById(R.id.tilMaintenanceCost)
@@ -434,6 +478,104 @@ class MainActivity : AppCompatActivity() {
                 addAreaAction()
                 true
             } else false
+        }
+
+        // Sincronizar Base Comunitária de Áreas de Risco (Módulo A)
+        btnSyncCommunityRisk.setOnClickListener {
+            btnSyncCommunityRisk.isEnabled = false
+            tvCommunityRiskSyncStatus.text = "Sincronizando com a base comunitária..."
+            lifecycleScope.launch {
+                try {
+                    val syncResult = CommunityRiskClient.syncRiskAreas(riskAreas.toList()).getOrThrow()
+                    riskAreas.clear()
+                    riskAreas.addAll(syncResult.updatedList)
+                    val updatedSettings = readSettingsFromUi().copy(riskAreasList = riskAreas.toList())
+                    settingsRepository.saveSettings(updatedSettings)
+                    renderRiskAreaChips()
+                    updateRiskAreasUi(swRiskAreasEnabled.isChecked)
+                    tvCommunityRiskSyncStatus.text = "✓ Sincronizado via ${syncResult.source}! +${syncResult.newAreasAdded} novos (Total: ${syncResult.totalAreas})"
+                    Toast.makeText(this@MainActivity, "✓ Base comunitária sincronizada! +${syncResult.newAreasAdded} novos bairros adicionados.", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    tvCommunityRiskSyncStatus.text = "Erro ao sincronizar. Usando base local."
+                    Toast.makeText(this@MainActivity, "Erro ao sincronizar áreas de risco: ${e.message}", Toast.LENGTH_SHORT).show()
+                } finally {
+                    btnSyncCommunityRisk.isEnabled = true
+                }
+            }
+        }
+
+        // Card do Modo Chuva - Toque no card alterna o switch
+        cardRainMode.setOnClickListener {
+            swRainMode.isChecked = !swRainMode.isChecked
+        }
+
+        // Switch do Modo Chuva / Mau Tempo (Módulo B)
+        swRainMode.setOnCheckedChangeListener { _, isChecked ->
+            updateRainModeUi(isChecked)
+            val currentSettings = readSettingsFromUi().copy(rainModeEnabled = isChecked)
+            settingsRepository.saveSettings(currentSettings)
+            DeliveryAccessibilityService.updateWeatherStatus(
+                isChecked,
+                if (isChecked) "🌧️ Chuva (Manual)" else "☀️ Tempo Firme (Manual)"
+            )
+            val msg = if (isChecked) "🌧️ Piso dinâmico de chuva ATIVADO!" else "Piso dinâmico de chuva DESATIVADO"
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
+
+        // Consultar Clima Agora via Open-Meteo
+        btnCheckWeatherNow.setOnClickListener {
+            btnCheckWeatherNow.isEnabled = false
+            tvRainStatus.text = "Consultando Open-Meteo em tempo real..."
+            lifecycleScope.launch {
+                try {
+                    val weather = WeatherClient.checkWeather().getOrThrow()
+                    val raining = weather.isRaining
+                    swRainMode.isChecked = raining
+                    updateRainModeUi(raining)
+                    val statusStr = weather.description
+                    tvRainStatus.text = statusStr
+                    DeliveryAccessibilityService.updateWeatherStatus(raining, statusStr)
+                    val alertMsg = if (raining) "🌧️ Chuva detectada! Piso dinâmico de chuva ativado." else "☀️ Sem chuva detectada ($statusStr)."
+                    Toast.makeText(this@MainActivity, alertMsg, Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    tvRainStatus.text = "Erro ao consultar clima. Verifique conexão."
+                    Toast.makeText(this@MainActivity, "Falha ao obter clima: ${e.message}", Toast.LENGTH_SHORT).show()
+                } finally {
+                    btnCheckWeatherNow.isEnabled = true
+                }
+            }
+        }
+
+        // Switch de Alerta de Subida Forte para Bike (Módulo D)
+        swBikeElevation.setOnCheckedChangeListener { _, isChecked ->
+            val currentSettings = readSettingsFromUi().copy(bikeElevationAlertEnabled = isChecked)
+            settingsRepository.saveSettings(currentSettings)
+            val msg = if (isChecked) "🚴 Alerta de subidas íngremes ATIVADO para Bike!" else "Alerta de subidas para Bike DESATIVADO"
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
+
+        // Buscar Preço Médio ANP por UF (Módulo C)
+        btnSyncFuelPrice.setOnClickListener {
+            val uf = etFuelStateCode.text.toString().trim().uppercase(Locale.ROOT)
+            if (uf.length != 2) {
+                Toast.makeText(this, "Digite a sigla do estado com 2 letras (ex: SP, RJ, MG)", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            btnSyncFuelPrice.isEnabled = false
+            lifecycleScope.launch {
+                try {
+                    val quote = FuelPriceClient.getFuelPriceForState(uf)
+                    val price = quote.gasolineAverage
+                    etFuelPrice.setText(String.format(Locale.US, "%.2f", price))
+                    val updated = readSettingsFromUi()
+                    settingsRepository.saveSettings(updated)
+                    Toast.makeText(this@MainActivity, "✓ Preço médio ANP ($uf - ${quote.stateName}): R$ %.2f (${quote.dateReference})".format(Locale.US, price), Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this@MainActivity, "Erro ao buscar média ANP: ${e.message}", Toast.LENGTH_SHORT).show()
+                } finally {
+                    btnSyncFuelPrice.isEnabled = true
+                }
+            }
         }
 
         // Switch de avisos por voz: salva a preferência de áudio imediatamente
@@ -610,6 +752,13 @@ class MainActivity : AppCompatActivity() {
             settings.riskAreasList.any { normDest.contains(DeliveryCalculator.normalizeText(it)) }
         } else false
 
+        val isRaining = settings.rainModeEnabled
+        val elevationInfo = if (settings.isBike && settings.bikeElevationAlertEnabled) {
+            ElevationClient.analyzeElevationNominal(destination.orEmpty())
+        } else {
+            ElevationClient.ElevationProfile(false, 0, "")
+        }
+
         OverlayService.showOffer(
             context = this,
             platform = platform,
@@ -619,12 +768,17 @@ class MainActivity : AppCompatActivity() {
             destination = destination,
             isRiskArea = isRisk,
             riskAreaName = if (isRisk) destination else null,
-            orderCount = orderCount
+            orderCount = orderCount,
+            isRaining = isRaining,
+            isSteepIncline = elevationInfo.isSteepIncline,
+            elevationGainMeters = elevationInfo.elevationGainMeters
         )
 
         updateFloatingBubbleUi()
 
-        val alertMsg = if (isRisk) "⚠️ ALERTA: Área de risco simulada ($destination)!" else "✓ Semáforo ativo na tela!"
+        val rainBadge = if (isRaining) " [🌧️ Chuva]" else ""
+        val bikeBadge = if (elevationInfo.isSteepIncline) " [🚴 Subida]" else ""
+        val alertMsg = if (isRisk) "⚠️ ALERTA: Área de risco simulada ($destination)!" else "✓ Semáforo ativo na tela!$rainBadge$bikeBadge"
         Toast.makeText(
             this,
             "$alertMsg O card fecha em 12s, mas a bolha continua flutuando na borda (estilo GigU).",
@@ -638,11 +792,25 @@ class MainActivity : AppCompatActivity() {
             tilFuelConsumption.isEnabled = false
             tilFuelPrice.helperText = "Não aplicável para Bicicleta"
             tilFuelConsumption.helperText = "Não aplicável para Bicicleta"
+            layoutFuelAnpSync.visibility = View.GONE
+            layoutBikeElevation.visibility = View.VISIBLE
         } else {
             tilFuelPrice.isEnabled = true
             tilFuelConsumption.isEnabled = true
             tilFuelPrice.helperText = "Ex: 5,80 por litro"
             tilFuelConsumption.helperText = "Ex: 35,0 km por litro"
+            layoutFuelAnpSync.visibility = View.VISIBLE
+            layoutBikeElevation.visibility = View.GONE
+        }
+    }
+
+    private fun updateRainModeUi(isEnabled: Boolean) {
+        if (isEnabled) {
+            tvRainStatus.text = "🌧️ Modo Chuva Ativo (Bônus no piso aplicado)"
+            tvRainStatus.setTextColor(Color.parseColor("#38BDF8"))
+        } else {
+            tvRainStatus.text = "☀️ Modo Chuva Inativo"
+            tvRainStatus.setTextColor(Color.parseColor("#9CA3AF"))
         }
     }
 
@@ -689,6 +857,17 @@ class MainActivity : AppCompatActivity() {
         riskAreas.addAll(settings.riskAreasList)
         renderRiskAreaChips()
         updateRiskAreasUi(settings.riskAreasEnabled)
+
+        // Modo Chuva (Módulo B)
+        swRainMode.isChecked = settings.rainModeEnabled
+        etRainFloorBonus.setText(String.format(Locale.US, "%.2f", settings.rainFloorBonus))
+        updateRainModeUi(settings.rainModeEnabled)
+
+        // Preço Combustível ANP (Módulo C)
+        etFuelStateCode.setText(settings.fuelStateCode)
+
+        // Alerta Topografia Bike (Módulo D)
+        swBikeElevation.isChecked = settings.bikeElevationAlertEnabled
     }
 
     private fun renderRiskAreaChips() {
@@ -807,6 +986,10 @@ class MainActivity : AppCompatActivity() {
         val emptyReturn = parseDecimal(etEmptyReturnPercent.text.toString(), 0.0)
         val riskAreasEnabled = swRiskAreasEnabled.isChecked
         val autoRejectRisk = swAutoRejectRiskAreas.isChecked
+        val rainModeEnabled = swRainMode.isChecked
+        val rainFloorBonus = parseDecimal(etRainFloorBonus.text.toString(), 3.00)
+        val fuelStateCode = etFuelStateCode.text.toString().trim().uppercase(Locale.ROOT).ifEmpty { "SP" }
+        val bikeElevation = swBikeElevation.isChecked
 
         return DeliverySettings(
             vehicleType = vehicleType,
@@ -828,7 +1011,11 @@ class MainActivity : AppCompatActivity() {
             emptyReturnPercent = emptyReturn,
             riskAreasEnabled = riskAreasEnabled,
             riskAreasList = riskAreas.toList(),
-            autoRejectRiskAreas = autoRejectRisk
+            autoRejectRiskAreas = autoRejectRisk,
+            rainModeEnabled = rainModeEnabled,
+            rainFloorBonus = rainFloorBonus,
+            fuelStateCode = fuelStateCode,
+            bikeElevationAlertEnabled = bikeElevation
         )
     }
 
@@ -857,13 +1044,33 @@ class MainActivity : AppCompatActivity() {
         )
 
         val settings = readSettingsFromUi()
-        val result = DeliveryCalculator.calculate(offer, settings)
+        val isRaining = settings.rainModeEnabled
+        val elevationInfo = if (settings.isBike && settings.bikeElevationAlertEnabled) {
+            ElevationClient.analyzeElevationNominal(destination.orEmpty())
+        } else {
+            ElevationClient.ElevationProfile(false, 0, "")
+        }
+
+        val result = DeliveryCalculator.calculate(
+            offer = offer,
+            settings = settings,
+            isRaining = isRaining,
+            isSteepIncline = elevationInfo.isSteepIncline,
+            elevationGainMeters = elevationInfo.elevationGainMeters
+        )
+
+        val telemetryBadges = buildString {
+            if (result.isRaining) append("🌧️ Chuva (+R$ %.2f) • ".format(Locale.getDefault(), result.appliedFloorBonus))
+            if (result.isSteepIncline) append("🚴 Morro Íngreme (+%d m) • ".format(result.elevationGainMeters))
+        }
+
+        val effectiveFloor = settings.minGrossValueFloor + result.appliedFloorBonus
 
         // Atualizar Card de Resultado com Semáforo
         when (result.trafficLightStatus) {
             TrafficLightStatus.GREEN -> {
                 val multiPrefix = if (result.orderCount > 1) "📦 Rota Dupla (${result.orderCount} entregas)\n" else ""
-                tvVerdict.text = "${multiPrefix}🟢 VERDE - OFERTA RECOMENDADA ($platform)\nAmbas as metas atingidas"
+                tvVerdict.text = "${multiPrefix}${telemetryBadges}🟢 VERDE - OFERTA RECOMENDADA ($platform)\nAmbas as metas atingidas"
                 tvVerdict.setTextColor(Color.parseColor("#198754"))
                 cardResult.strokeColor = Color.parseColor("#198754")
             }
@@ -874,7 +1081,7 @@ class MainActivity : AppCompatActivity() {
                     "Atingiu meta de R$/Hora, mas não a de R$/Km"
                 }
                 val multiPrefix = if (result.orderCount > 1) "📦 Rota Dupla (${result.orderCount} entregas)\n" else ""
-                tvVerdict.text = "${multiPrefix}🟡 AMARELO - ATENÇÃO ($platform)\n$detail"
+                tvVerdict.text = "${multiPrefix}${telemetryBadges}🟡 AMARELO - ATENÇÃO ($platform)\n$detail"
                 tvVerdict.setTextColor(Color.parseColor("#D97706"))
                 cardResult.strokeColor = Color.parseColor("#D97706")
             }
@@ -882,14 +1089,16 @@ class MainActivity : AppCompatActivity() {
                 val detail = when {
                     result.isRiskArea ->
                         "🚨 ÁREA DE RISCO DETECTADA: ${result.detectedRiskArea ?: "Bairro Perigoso"}"
+                    result.isSteepIncline ->
+                        "🚴 SUBIDA MUITO ÍNGREME DETECTADA (+%d m relevo)".format(result.elevationGainMeters)
                     settings.maxDistanceKm > 0.0 && offer.totalDistanceKm > settings.maxDistanceKm ->
                         "Distância (%.1f km) excede teto máximo de %.1f km".format(Locale.getDefault(), offer.totalDistanceKm, settings.maxDistanceKm)
-                    settings.minGrossValueFloor > 0.0 && offer.grossValue < settings.minGrossValueFloor ->
-                        "Valor bruto (R$ %.2f) abaixo do piso mínimo de R$ %.2f".format(Locale.getDefault(), offer.grossValue, settings.minGrossValueFloor)
+                    effectiveFloor > 0.0 && offer.grossValue < effectiveFloor ->
+                        "Valor bruto (R$ %.2f) abaixo do piso de R$ %.2f%s".format(Locale.getDefault(), offer.grossValue, effectiveFloor, if (result.isRaining) " (com bônus de chuva)" else "")
                     else -> "Abaixo de ambas as metas"
                 }
                 val multiPrefix = if (result.orderCount > 1) "📦 Rota Dupla (${result.orderCount} entregas)\n" else ""
-                tvVerdict.text = "${multiPrefix}🔴 VERMELHO - RECUSAR ($platform)\n$detail"
+                tvVerdict.text = "${multiPrefix}${telemetryBadges}🔴 VERMELHO - RECUSAR ($platform)\n$detail"
                 tvVerdict.setTextColor(Color.parseColor("#DC3545"))
                 cardResult.strokeColor = Color.parseColor("#DC3545")
             }

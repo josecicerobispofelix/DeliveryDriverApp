@@ -708,6 +708,117 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Card de Piso Dinâmico de Mau Tempo / Chuva (Fase 8 - Open-Meteo) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRainMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            android:layout_marginBottom="16dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="#0284C7"
+            app:cardBackgroundColor="#111827">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:text="🌧️"
+                        android:textSize="26sp"
+                        android:gravity="center"
+                        android:layout_marginEnd="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Piso Dinâmico de Chuva"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvRainStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="☀️ Tempo Firme • Toque abaixo para verificar"
+                            android:textColor="#38BDF8"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/swRainMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="#0284C7"
+                        app:trackTint="#334155" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Adiciona um valor extra no piso mínimo bruto durante chuvas ou pista molhada. Monitora automaticamente via Open-Meteo sem precisar de chave de API."
+                    android:textColor="#D1D5DB"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+
+                <!-- Bônus de Chuva no Piso -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilRainFloorBonus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Adicional no Piso em Chuva"
+                    android:textColorHint="#9CA3AF"
+                    app:hintTextColor="#0284C7"
+                    app:boxStrokeColor="#0284C7"
+                    app:boxBackgroundColor="#1E293B"
+                    app:prefixText="R$ "
+                    app:prefixTextColor="#0284C7"
+                    app:helperText="Ex: 3,00 adicionados ao piso mínimo quando estiver chovendo"
+                    app:helperTextTextColor="#9CA3AF"
+                    android:layout_marginTop="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etRainFloorBonus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:textColor="#FFFFFF"
+                        android:text="3.00" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Botão Consultar Clima Agora -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCheckWeatherNow"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🌤️ Consultar Clima em Tempo Real (Open-Meteo)"
+                    android:textColor="#38BDF8"
+                    app:strokeColor="#0284C7"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- Card de Proteção de Áreas de Risco (Fase 5 - Estilo GigU) -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -891,6 +1002,28 @@
                         android:paddingEnd="16dp" />
                 </LinearLayout>
 
+                <!-- Botão Sincronizar Base Comunitária de Áreas de Risco (Módulo A) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSyncCommunityRisk"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🌐 Sincronizar Base Comunitária (RJ, SP, BH...)"
+                    android:textColor="#EF4444"
+                    app:strokeColor="#EF4444"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tvCommunityRiskSyncStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Base colaborativa disponível • Toque para mesclar"
+                    android:textColor="#6B7280"
+                    android:textSize="11sp"
+                    android:layout_marginBottom="12dp" />
+
                 <!-- Grupo de Chips dos Bairros Cadastrados -->
                 <TextView
                     android:id="@+id/tvRiskAreasCount"
@@ -967,6 +1100,63 @@
                         android:textSize="15sp" />
                 </RadioGroup>
 
+                <!-- Opção de Alerta de Subidas / Relevo para Bike (Módulo D) -->
+                <LinearLayout
+                    android:id="@+id/layoutBikeElevation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#1E293B"
+                    android:padding="12dp"
+                    android:visibility="gone"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="🚴"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:layout_marginEnd="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Alerta de Subida Forte (Bike)"
+                                android:textColor="#FFFFFF"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Penaliza corridas com morros/serras íngremes"
+                                android:textColor="#9CA3AF"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/swBikeElevation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:thumbTint="#00E676"
+                            app:trackTint="#334155" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!-- Preço do Combustível -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilFuelPrice"
@@ -990,6 +1180,48 @@
                         android:textColor="#FFFFFF"
                         android:text="5.80" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Sincronização de Preço Médio ANP por Estado (Módulo C) -->
+                <LinearLayout
+                    android:id="@+id/layoutFuelAnpSync"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilFuelStateCode"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:hint="UF"
+                        android:textColorHint="#9CA3AF"
+                        app:hintTextColor="#00E676"
+                        app:boxStrokeColor="#00E676"
+                        app:boxBackgroundColor="#1E293B">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etFuelStateCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapCharacters"
+                            android:maxLength="2"
+                            android:textColor="#FFFFFF"
+                            android:text="SP" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSyncFuelPrice"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="⛽ Buscar Média ANP"
+                        android:textColor="#00E676"
+                        app:strokeColor="#00E676"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <!-- Consumo Médio -->
                 <com.google.android.material.textfield.TextInputLayout

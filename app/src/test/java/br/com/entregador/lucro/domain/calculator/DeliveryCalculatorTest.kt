@@ -410,4 +410,91 @@ class DeliveryCalculatorTest {
         assertEquals(40.0 / 60.0, result.totalTimeHours, 0.0001)
         assertEquals(result.netProfit / 2.0, result.netProfitPerOrder, 0.001)
     }
+
+    @Test
+    fun `rainMode applies bonus to minGrossValueFloor and rejects offer below adjusted floor`() {
+        val settings = DeliverySettings(
+            vehicleType = "MOTO",
+            targetMinPerKm = 1.50,
+            targetMinPerHour = 20.00,
+            minGrossValueFloor = 10.00,
+            rainModeEnabled = true,
+            rainFloorBonus = 3.00
+        )
+
+        // Oferta de R$ 11.50: passaria no piso normal de 10.00, mas com chuva o piso sobe para 13.00
+        val offer = DeliveryOffer(
+            platform = "IFOOD",
+            grossValue = 11.50,
+            totalDistanceKm = 3.0,
+            estimatedTimeMinutes = 10
+        )
+
+        val result = DeliveryCalculator.calculate(
+            offer = offer,
+            settings = settings,
+            isRaining = true
+        )
+
+        org.junit.Assert.assertTrue(result.isRaining)
+        assertEquals(3.00, result.appliedFloorBonus, 0.001)
+        assertEquals(TrafficLightStatus.RED, result.trafficLightStatus)
+    }
+
+    @Test
+    fun `bike steep incline classifies route as RED and adds elevation penalty`() {
+        val settings = DeliverySettings(
+            vehicleType = "BIKE",
+            targetMinPerKm = 6.00,
+            targetMinPerHour = 38.00,
+            maintenanceCostPerKm = 0.12,
+            restaurantWaitBufferMinutes = 10,
+            bikeElevationAlertEnabled = true
+        )
+
+        // Lucro líquido: 18.00 - (3.0 * 0.12) = 17.64
+        // Sem morro: 25 min (0.4167h) -> R$ 42.33/h (passaria nos 38.00/h)
+        // Com morro (+6 min): 31 min (0.5167h) -> R$ 34.14/h (reprovado < 38.00)
+        // R$/km: 17.64 / 3.0 = 5.88 (reprovado < 6.00) -> Classifica como RED
+        val offer = DeliveryOffer(
+            platform = "UBER",
+            grossValue = 18.00,
+            totalDistanceKm = 3.0,
+            estimatedTimeMinutes = 15
+        )
+
+        val result = DeliveryCalculator.calculate(
+            offer = offer,
+            settings = settings,
+            isRaining = false,
+            isSteepIncline = true,
+            elevationGainMeters = 80
+        )
+
+        org.junit.Assert.assertTrue(result.isSteepIncline)
+        assertEquals(80, result.elevationGainMeters)
+        assertEquals(TrafficLightStatus.RED, result.trafficLightStatus)
+    }
+
+    @Test
+    fun `analyzeElevationNominal identifies known steep Brazilian topographies`() {
+        val analysisPerdizes = br.com.entregador.lucro.network.ElevationClient.analyzeElevationNominal("Rua Cardoso de Almeida, Perdizes, São Paulo")
+        org.junit.Assert.assertTrue(analysisPerdizes.isSteepIncline)
+        org.junit.Assert.assertTrue(analysisPerdizes.elevationGainMeters >= 45)
+
+        val analysisSantaTeresa = br.com.entregador.lucro.network.ElevationClient.analyzeElevationNominal("Largo dos Guimarães, Santa Teresa, Rio de Janeiro")
+        org.junit.Assert.assertTrue(analysisSantaTeresa.isSteepIncline)
+
+        val analysisFlat = br.com.entregador.lucro.network.ElevationClient.analyzeElevationNominal("Avenida Brigadeiro Faria Lima, Itaim Bibi")
+        org.junit.Assert.assertFalse(analysisFlat.isSteepIncline)
+    }
+
+    @Test
+    fun `fuel price client returns valid benchmark for Brazilian states`() = kotlinx.coroutines.runBlocking {
+        val spQuote = br.com.entregador.lucro.network.FuelPriceClient.getFuelPriceForState("SP")
+        org.junit.Assert.assertTrue(spQuote.gasolineAverage in 4.5..8.5)
+
+        val rjQuote = br.com.entregador.lucro.network.FuelPriceClient.getFuelPriceForState("RJ")
+        org.junit.Assert.assertTrue(rjQuote.gasolineAverage in 4.5..8.5)
+    }
 }

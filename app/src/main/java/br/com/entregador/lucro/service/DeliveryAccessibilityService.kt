@@ -19,6 +19,11 @@ import br.com.entregador.lucro.domain.model.DeliveryHistoryRecord
 import br.com.entregador.lucro.domain.model.DeliveryOffer
 import br.com.entregador.lucro.domain.model.TrafficLightStatus
 import br.com.entregador.lucro.domain.parser.DeliveryOfferParser
+import br.com.entregador.lucro.network.ElevationClient
+import br.com.entregador.lucro.network.WeatherClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 /**
@@ -52,6 +57,22 @@ class DeliveryAccessibilityService : AccessibilityService() {
         super.onServiceConnected()
         instance = this
         Log.d(TAG, "KmCerto DeliveryAccessibilityService conectado e ativo!")
+        refreshWeather()
+    }
+
+    private fun refreshWeather() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = WeatherClient.checkWeather()
+                if (result.isSuccess) {
+                    val report = result.getOrThrow()
+                    updateWeatherStatus(report.isRaining, report.description)
+                    Log.d(TAG, "Clima consultado com sucesso: ${report.description} (Chovendo: ${report.isRaining})")
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "Não foi possível atualizar clima em segundo plano: ${e.message}")
+            }
+        }
     }
 
     /**
@@ -112,8 +133,23 @@ class DeliveryAccessibilityService : AccessibilityService() {
             // 5. Recupera as preferências guardadas em DeliverySettings
             val settings = EncryptedDeliverySettingsRepository(this).getSettings()
 
+            val isRaining = isCurrentWeatherRain || settings.rainModeEnabled
+            val elevationProfile = if (settings.isBike && settings.bikeElevationAlertEnabled) {
+                ElevationClient.analyzeElevationNominal(
+                    offer.destinationNeighborhood ?: offer.destinationAddress ?: ""
+                )
+            } else {
+                ElevationClient.ElevationProfile(false, 0, "")
+            }
+
             // 6. Executa o cálculo em DeliveryCalculator.calculate(offer, settings)
-            val result = DeliveryCalculator.calculate(offer, settings)
+            val result = DeliveryCalculator.calculate(
+                offer = offer,
+                settings = settings,
+                isRaining = isRaining,
+                isSteepIncline = elevationProfile.isSteepIncline,
+                elevationGainMeters = elevationProfile.elevationGainMeters
+            )
 
             // Registra a oferta no histórico do turno diário (Fase 2)
             try {
@@ -148,6 +184,9 @@ class DeliveryAccessibilityService : AccessibilityService() {
                 putExtra(OverlayService.EXTRA_IS_RISK_AREA, result.isRiskArea)
                 putExtra(OverlayService.EXTRA_RISK_AREA_NAME, result.detectedRiskArea)
                 putExtra(OverlayService.EXTRA_ORDER_COUNT, offer.orderCount)
+                putExtra(OverlayService.EXTRA_IS_RAINING, isRaining)
+                putExtra(OverlayService.EXTRA_IS_STEEP, elevationProfile.isSteepIncline)
+                putExtra(OverlayService.EXTRA_ELEVATION_GAIN, elevationProfile.elevationGainMeters)
                 putExtra("extra_net_profit", result.netProfit)
                 putExtra("extra_rate_per_km", result.earningsPerKm)
                 putExtra("extra_rate_per_hour", result.earningsPerHour)
@@ -595,6 +634,19 @@ class DeliveryAccessibilityService : AccessibilityService() {
 
         var instance: DeliveryAccessibilityService? = null
             private set
+
+        @Volatile
+        var isCurrentWeatherRain: Boolean = false
+            private set
+
+        @Volatile
+        var lastWeatherDescription: String = "Tempo Firme ☀️"
+            private set
+
+        fun updateWeatherStatus(isRaining: Boolean, description: String) {
+            isCurrentWeatherRain = isRaining
+            lastWeatherDescription = description
+        }
 
         fun cancelPendingAutoReject() {
             instance?.cancelAutoReject()

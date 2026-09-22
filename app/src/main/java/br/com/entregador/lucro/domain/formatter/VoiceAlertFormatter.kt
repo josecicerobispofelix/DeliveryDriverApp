@@ -61,6 +61,9 @@ object VoiceAlertFormatter {
             ""
         }
 
-        return "${orderPart}Oferta $colorName$destPart. Lucro de $profitText, $rateKmText por quilômetro."
+        val rainPart = if (result.isRainActive) "Modo chuva ativo. " else ""
+        val inclinePart = if (result.isSteepIncline) " Atenção: subida íngreme na rota." else ""
+
+        return "${rainPart}${orderPart}Oferta $colorName$destPart. Lucro de $profitText, $rateKmText por quilômetro.$inclinePart"
     }
 }

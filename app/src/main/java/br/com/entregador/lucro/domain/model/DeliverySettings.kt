@@ -37,7 +37,12 @@ data class DeliverySettings(
     val dailyRevenueGoal: Double = 200.0,
     val autoAcceptGreenOffers: Boolean = false,
     val autoAcceptDelaySeconds: Int = 1,
-    val soundAlertsEnabled: Boolean = true
+    val soundAlertsEnabled: Boolean = true,
+    // Telemetria Inteligente (Fase 8 - APIs A, B, C e D)
+    val rainModeEnabled: Boolean = false,
+    val rainFloorBonus: Double = 3.00,
+    val fuelStateCode: String = "SP",
+    val bikeElevationAlertEnabled: Boolean = true
 ) {
     companion object {
         const val VEHICLE_MOTO = "MOTO"
