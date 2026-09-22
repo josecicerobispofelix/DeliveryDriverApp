@@ -20,49 +20,41 @@ object CommunityRiskClient {
         val isImmediateNeighbor: Boolean = false
     )
 
-    // Base Regionalizada: Atibaia e Cidades Próximas / Vizinhas (Região Bragantina, Circuito das Águas, Grande SP Norte)
-    val ATIBAIA_AND_NEIGHBORS_RISK_AREAS = listOf(
-        // Atibaia (Locais de atenção e alerta)
-        RiskAreaEntry("Caetetuba", "Atibaia", "SP", true),
-        RiskAreaEntry("Tanque", "Atibaia", "SP", true),
-        RiskAreaEntry("Portão", "Atibaia", "SP", true),
-        RiskAreaEntry("Jardim Imperial", "Atibaia", "SP", true),
-        RiskAreaEntry("Jardim Cerejeiras", "Atibaia", "SP", true),
-        RiskAreaEntry("Maracanã", "Atibaia", "SP", true),
-        RiskAreaEntry("Usina", "Atibaia", "SP", true),
-        RiskAreaEntry("Boa Vista", "Atibaia", "SP", true),
-        RiskAreaEntry("Alvinópolis", "Atibaia", "SP", true),
+    // Conjunto de bairros seguros, comerciais e residenciais comuns de Atibaia e região que NUNCA devem ser bloqueados
+    val SAFE_COMMERCIAL_RESIDENTIAL_AREAS = setOf(
+        "alvinopolis", "alvinópolis", "jardim alvinopolis", "jardim alvinópolis",
+        "tanque", "portao", "portão", "usina", "boa vista", "maracana", "maracanã",
+        "cerejeiras", "jardim cerejeiras", "atibaia jardim", "centro", "vila santista",
+        "jardim do lago", "jardim paulista", "estancia", "estância", "lucas", "vila giglio",
+        "itapetinga", "ressaca", "aguas claras", "águas claras", "vila bianchi",
+        "jardim fraternidade", "jardim sao miguel", "jardim são miguel", "jardim suico", "jardim suíço"
+    )
 
-        // Bragança Paulista (Cidade vizinha colada)
+    // Base Estritamente Focada em Áreas de Risco Reais (Periferias críticas e favelas)
+    val ATIBAIA_AND_NEIGHBORS_RISK_AREAS = listOf(
+        // Atibaia (Apenas locais críticos conhecidos por ocorrências/atenção noturna)
+        RiskAreaEntry("Caetetuba", "Atibaia", "SP", true),
+        RiskAreaEntry("Jardim Imperial", "Atibaia", "SP", true),
+
+        // Bragança Paulista (Cidades vizinhas - Apenas pontos críticos)
         RiskAreaEntry("Henedina Cortez", "Bragança Paulista", "SP", true),
         RiskAreaEntry("Parque dos Estados", "Bragança Paulista", "SP", true),
-        RiskAreaEntry("Jardim Fraternidade", "Bragança Paulista", "SP", true),
-        RiskAreaEntry("Jardim São Miguel", "Bragança Paulista", "SP", true),
-        RiskAreaEntry("Águas Claras", "Bragança Paulista", "SP", true),
-        RiskAreaEntry("Vila Bianchi", "Bragança Paulista", "SP", true),
 
-        // Cidades Vizinhas Imediatas (Bom Jesus dos Perdões, Piracaia, Nazaré Paulista, Jarinu)
+        // Cidades Vizinhas Imediatas (Apenas áreas de atenção)
         RiskAreaEntry("Cachoeirinha", "Bom Jesus dos Perdões", "SP", true),
-        RiskAreaEntry("Vila Santa Maria", "Bom Jesus dos Perdões", "SP", true),
         RiskAreaEntry("Batatuba", "Piracaia", "SP", true),
-        RiskAreaEntry("Vicente Nunes", "Nazaré Paulista", "SP", true),
-        RiskAreaEntry("Trieste", "Jarinu", "SP", true),
 
-        // Mairiporã, Franco da Rocha e Francisco Morato (Fronteira com Atibaia / Serra)
+        // Mairiporã, Franco da Rocha e Francisco Morato (Apenas periferias críticas)
         RiskAreaEntry("Terra Preta", "Mairiporã", "SP", true),
-        RiskAreaEntry("Jardim Suíço", "Mairiporã", "SP", true),
         RiskAreaEntry("Parque Vitória", "Franco da Rocha", "SP", true),
         RiskAreaEntry("Pretória", "Franco da Rocha", "SP", true),
-        RiskAreaEntry("Jardim Santo Antônio", "Francisco Morato", "SP", true),
         RiskAreaEntry("Belém Capela", "Francisco Morato", "SP", true),
 
-        // Polos Metropolitanos Vizinhos (Campinas e Guarulhos)
+        // Polos Metropolitanos Vizinhos (Apenas áreas de risco conhecidas)
         RiskAreaEntry("Campo Grande", "Campinas", "SP", false),
         RiskAreaEntry("Ouro Verde", "Campinas", "SP", false),
-        RiskAreaEntry("San Martin", "Campinas", "SP", false),
         RiskAreaEntry("Pimentas", "Guarulhos", "SP", false),
         RiskAreaEntry("Bonsucesso", "Guarulhos", "SP", false),
-        RiskAreaEntry("São João", "Guarulhos", "SP", false),
 
         // Grande São Paulo / Capital Norte (Rota Rodovia Fernão Dias saindo de Atibaia)
         RiskAreaEntry("Brasilândia", "São Paulo", "SP", false),
@@ -118,9 +110,17 @@ object CommunityRiskClient {
     }
 
     /**
+     * Remove da lista bairros comerciais e residenciais comuns de Atibaia e região que são seguros e não devem ser bloqueados.
+     */
+    fun pruneSafeNeighborhoods(existingList: List<String>): List<String> {
+        val safeNormalized = SAFE_COMMERCIAL_RESIDENTIAL_AREAS.map { normalize(it) }.toSet()
+        return existingList.filter { normalize(it) !in safeNormalized }
+    }
+
+    /**
      * Sincroniza a base comunitária filtrada estritamente para a localização do usuário.
-     * Se o usuário estiver em Atibaia/SP, importa SOMENTE Atibaia e cidades vizinhas/próximas,
-     * e remove automaticamente bairros do Rio de Janeiro ou outros estados que foram importados anteriormente.
+     * Se o usuário estiver em Atibaia/SP, importa SOMENTE áreas genuinamente de risco (Caetetuba, Jd Imperial, periferias críticas),
+     * e remove automaticamente bairros seguros comuns (Alvinópolis, Portão, Tanque, etc.) e favelas do RJ/MG.
      */
     suspend fun syncRegionalRiskAreas(
         existingList: List<String>,
@@ -132,12 +132,15 @@ object CommunityRiskClient {
         val targetState = userState.trim().uppercase()
         val targetCity = userCity.trim()
 
-        // 1. Limpa bairros de fora se solicitado (ex: remove Jacarezinho, Maré, Alemão para quem é de SP)
-        val cleanedExisting = if (autoPruneOtherStates && targetState == "SP") {
-            pruneUnrelatedStateAreas(existingList)
-        } else {
-            existingList
+        // 1. Limpa bairros de fora (RJ/MG) e bairros comuns seguros adicionados anteriormente
+        var intermediate = existingList
+        if (autoPruneOtherStates && targetState == "SP") {
+            intermediate = pruneUnrelatedStateAreas(intermediate)
         }
+        if (targetState == "SP") {
+            intermediate = pruneSafeNeighborhoods(intermediate)
+        }
+        val cleanedExisting = intermediate
         val removedCount = existingList.size - cleanedExisting.size
 
         // 2. Coleta áreas disponíveis

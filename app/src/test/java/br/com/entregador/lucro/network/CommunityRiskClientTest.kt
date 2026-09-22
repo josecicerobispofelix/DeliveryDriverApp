@@ -7,7 +7,7 @@ import org.junit.Test
 class CommunityRiskClientTest {
 
     @Test
-    fun syncRegionalRiskAreas_forAtibaia_includesAtibaiaAndNeighbors() = runBlocking {
+    fun syncRegionalRiskAreas_forAtibaia_includesOnlyRealDangerousPoints() = runBlocking {
         val existing = listOf("Bairro Personalizado Entregador")
         val result = CommunityRiskClient.syncRegionalRiskAreas(
             existingList = existing,
@@ -16,14 +16,20 @@ class CommunityRiskClientTest {
             autoPruneOtherStates = true
         ).getOrThrow()
 
-        // Verifica se bairros de Atibaia e cidades vizinhas estão presentes
+        // Locais genuínos de atenção / risco em Atibaia e vizinhança imediata
         assertTrue(result.updatedList.contains("Caetetuba"))
-        assertTrue(result.updatedList.contains("Tanque"))
-        assertTrue(result.updatedList.contains("Portão"))
-        assertTrue(result.updatedList.contains("Henedina Cortez")) // Bragança Paulista
-        assertTrue(result.updatedList.contains("Cachoeirinha")) // Bom Jesus dos Perdões
-        assertTrue(result.updatedList.contains("Terra Preta")) // Mairiporã
-        assertTrue(result.updatedList.contains("Bairro Personalizado Entregador")) // Não apaga o customizado
+        assertTrue(result.updatedList.contains("Jardim Imperial"))
+        assertTrue(result.updatedList.contains("Henedina Cortez")) // Periferia crítica Bragança
+        assertTrue(result.updatedList.contains("Bairro Personalizado Entregador")) // Preserva o customizado
+
+        // Bairros comuns e seguros de Atibaia NÃO devem entrar na lista de risco
+        assertFalse(result.updatedList.contains("Alvinópolis"))
+        assertFalse(result.updatedList.contains("Tanque"))
+        assertFalse(result.updatedList.contains("Portão"))
+        assertFalse(result.updatedList.contains("Usina"))
+        assertFalse(result.updatedList.contains("Boa Vista"))
+        assertFalse(result.updatedList.contains("Maracanã"))
+        assertFalse(result.updatedList.contains("Jardim Cerejeiras"))
     }
 
     @Test
@@ -46,15 +52,16 @@ class CommunityRiskClientTest {
     }
 
     @Test
-    fun syncRegionalRiskAreas_prunesExistingRioDeJaneiroAreas() = runBlocking {
-        // Simula a lista anterior do usuário que continha bairros do RJ importados por engano
+    fun syncRegionalRiskAreas_prunesExistingRioDeJaneiroAndSafeAreas() = runBlocking {
+        // Simula lista que continha favelas do RJ e bairros seguros de Atibaia adicionados por engano
         val contaminatedList = listOf(
             "Caetetuba",
             "Jacarezinho",
             "Mare",
-            "Complexo do Alemao",
-            "Rocinha",
-            "Meu Ponto Seguro"
+            "Alvinópolis",
+            "Tanque",
+            "Portão",
+            "Meu Ponto Seguro Customizado"
         )
 
         val result = CommunityRiskClient.syncRegionalRiskAreas(
@@ -64,21 +71,21 @@ class CommunityRiskClientTest {
             autoPruneOtherStates = true
         ).getOrThrow()
 
-        // Deve remover os 4 bairros do RJ e preservar Caetetuba e Meu Ponto Seguro
-        assertTrue(result.removedOtherStateAreas >= 4)
+        // Deve remover RJ (Jacarezinho, Mare) e bairros seguros comuns (Alvinópolis, Tanque, Portão)
         assertTrue(result.updatedList.contains("Caetetuba"))
-        assertTrue(result.updatedList.contains("Meu Ponto Seguro"))
+        assertTrue(result.updatedList.contains("Meu Ponto Seguro Customizado"))
         assertFalse(result.updatedList.contains("Jacarezinho"))
         assertFalse(result.updatedList.contains("Mare"))
-        assertFalse(result.updatedList.contains("Complexo do Alemao"))
-        assertFalse(result.updatedList.contains("Rocinha"))
+        assertFalse(result.updatedList.contains("Alvinópolis"))
+        assertFalse(result.updatedList.contains("Tanque"))
+        assertFalse(result.updatedList.contains("Portão"))
     }
 
     @Test
-    fun pruneUnrelatedStateAreas_removesOnlyNonSPAreas() {
-        val list = listOf("Caetetuba", "Portão", "Jacarezinho", "Pedreira Prado Lopes", "Outro Bairro")
-        val cleaned = CommunityRiskClient.pruneUnrelatedStateAreas(list)
+    fun pruneSafeNeighborhoods_removesOnlySafeNeighborhoods() {
+        val list = listOf("Caetetuba", "Alvinópolis", "Tanque", "Jardim Imperial", "Outro Local")
+        val cleaned = CommunityRiskClient.pruneSafeNeighborhoods(list)
 
-        assertEquals(listOf("Caetetuba", "Portão", "Outro Bairro"), cleaned)
+        assertEquals(listOf("Caetetuba", "Jardim Imperial", "Outro Local"), cleaned)
     }
 }

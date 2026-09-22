@@ -586,9 +586,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Limpar Bairros Conhecidos de Outros Estados (ex: Rio de Janeiro / MG)
+        // Limpar Bairros Conhecidos de Outros Estados (ex: Rio de Janeiro / MG) e Bairros Seguros Comuns
         btnClearOtherStatesRisk.setOnClickListener {
-            val cleaned = CommunityRiskClient.pruneUnrelatedStateAreas(riskAreas.toList())
+            val step1 = CommunityRiskClient.pruneUnrelatedStateAreas(riskAreas.toList())
+            val cleaned = CommunityRiskClient.pruneSafeNeighborhoods(step1)
             val removedCount = riskAreas.size - cleaned.size
             if (removedCount > 0) {
                 riskAreas.clear()
@@ -597,10 +598,10 @@ class MainActivity : AppCompatActivity() {
                 settingsRepository.saveSettings(updatedSettings)
                 renderRiskAreaChips()
                 updateRiskAreasUi(swRiskAreasEnabled.isChecked)
-                tvCommunityRiskSyncStatus.text = "✓ $removedCount bairros de fora removidos. Total ativo: ${riskAreas.size}"
-                Toast.makeText(this, "✓ $removedCount bairros de fora removidos com sucesso!", Toast.LENGTH_SHORT).show()
+                tvCommunityRiskSyncStatus.text = "✓ $removedCount bairros limpos. Apenas áreas de risco ativas: ${riskAreas.size}"
+                Toast.makeText(this, "✓ $removedCount bairros desnecessários removidos com sucesso!", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Nenhum bairro de outros estados encontrado na sua lista.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sua lista já contém apenas áreas de risco reais.", Toast.LENGTH_SHORT).show()
             }
         }
 
