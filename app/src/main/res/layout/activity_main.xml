@@ -1062,26 +1062,26 @@
                         android:textColor="#38BDF8" />
                 </LinearLayout>
 
-                <!-- Botão Sincronizar Base Comunitária Regional (Módulo A) -->
+                <!-- Botão Sincronizar Base Comunitária da Cidade (Módulo A) -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSyncCommunityRisk"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🌐 Sincronizar Região (Atibaia e Vizinhas)"
+                    android:text="🌐 Sincronizar Áreas de Risco da Sua Cidade"
                     android:textColor="#EF4444"
                     app:strokeColor="#EF4444"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="4dp" />
 
-                <!-- Botão Limpar Bairros de Outros Estados (RJ/MG) -->
+                <!-- Botão Limpar Bairros de Outras Cidades / Estados -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnClearOtherStatesRisk"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🧹 Limpar Bairros de Outros Estados (Ex: RJ)"
+                    android:text="🧹 Limpar Bairros de Fora / Outras Cidades"
                     android:textColor="#94A3B8"
                     android:textSize="11sp"
                     android:layout_marginBottom="4dp" />
@@ -1090,7 +1090,7 @@
                     android:id="@+id/tvCommunityRiskSyncStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Filtro ativo: Apenas Atibaia e cidades vizinhas de SP"
+                    android:text="Filtro ativo: Apenas áreas de risco de Atibaia - SP"
                     android:textColor="#6B7280"
                     android:textSize="11sp"
                     android:layout_marginBottom="12dp" />

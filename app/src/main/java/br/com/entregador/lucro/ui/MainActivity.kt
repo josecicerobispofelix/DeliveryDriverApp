@@ -546,19 +546,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Sincronizar Base Comunitária de Áreas de Risco Filtrada por Região (Módulo A)
+        // Sincronizar Base Comunitária de Áreas de Risco Filtrada por Cidade (Módulo A)
         btnSyncCommunityRisk.setOnClickListener {
             btnSyncCommunityRisk.isEnabled = false
             val city = etUserCity.text.toString().trim().ifEmpty { "Atibaia" }
             val state = etUserState.text.toString().trim().uppercase(Locale.ROOT).ifEmpty { "SP" }
-            tvCommunityRiskSyncStatus.text = "Sincronizando bairros de $city e cidades vizinhas ($state)..."
+            tvCommunityRiskSyncStatus.text = "Sincronizando áreas de risco de $city ($state)..."
             lifecycleScope.launch {
                 try {
-                    val syncResult = CommunityRiskClient.syncRegionalRiskAreas(
+                    val syncResult = CommunityRiskClient.syncCityRiskAreas(
                         existingList = riskAreas.toList(),
                         userCity = city,
                         userState = state,
-                        autoPruneOtherStates = true
+                        autoPruneOtherCities = true
                     ).getOrThrow()
 
                     riskAreas.clear()
@@ -568,13 +568,13 @@ class MainActivity : AppCompatActivity() {
                     renderRiskAreaChips()
                     updateRiskAreasUi(swRiskAreasEnabled.isChecked)
 
-                    val pruneMsg = if (syncResult.removedOtherStateAreas > 0) {
-                        " (${syncResult.removedOtherStateAreas} bairros de outros estados removidos)"
+                    val pruneMsg = if (syncResult.removedOtherCityAreas > 0) {
+                        " (${syncResult.removedOtherCityAreas} bairros de fora/seguros removidos)"
                     } else ""
                     tvCommunityRiskSyncStatus.text = "✓ Sincronizado para ${syncResult.regionDescription}! +${syncResult.newAreasAdded} novos$pruneMsg (Total: ${syncResult.totalAreas})"
                     Toast.makeText(
                         this@MainActivity,
-                        "✓ Região de $city sincronizada! +${syncResult.newAreasAdded} locais$pruneMsg",
+                        "✓ Áreas de risco de $city sincronizadas! +${syncResult.newAreasAdded} locais$pruneMsg",
                         Toast.LENGTH_LONG
                     ).show()
                 } catch (e: Exception) {
@@ -586,10 +586,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Limpar Bairros Conhecidos de Outros Estados (ex: Rio de Janeiro / MG) e Bairros Seguros Comuns
+        // Limpar Bairros Conhecidos de Outras Cidades / Outros Estados e Bairros Seguros Comuns
         btnClearOtherStatesRisk.setOnClickListener {
-            val step1 = CommunityRiskClient.pruneUnrelatedStateAreas(riskAreas.toList())
-            val cleaned = CommunityRiskClient.pruneSafeNeighborhoods(step1)
+            val city = etUserCity.text.toString().trim().ifEmpty { "Atibaia" }
+            val state = etUserState.text.toString().trim().uppercase(Locale.ROOT).ifEmpty { "SP" }
+            val cleaned = CommunityRiskClient.pruneAreasNotInCity(
+                existingList = riskAreas.toList(),
+                userCity = city,
+                userState = state
+            )
             val removedCount = riskAreas.size - cleaned.size
             if (removedCount > 0) {
                 riskAreas.clear()
@@ -598,10 +603,10 @@ class MainActivity : AppCompatActivity() {
                 settingsRepository.saveSettings(updatedSettings)
                 renderRiskAreaChips()
                 updateRiskAreasUi(swRiskAreasEnabled.isChecked)
-                tvCommunityRiskSyncStatus.text = "✓ $removedCount bairros limpos. Apenas áreas de risco ativas: ${riskAreas.size}"
-                Toast.makeText(this, "✓ $removedCount bairros desnecessários removidos com sucesso!", Toast.LENGTH_SHORT).show()
+                tvCommunityRiskSyncStatus.text = "✓ $removedCount bairros de fora limpos. Apenas áreas de $city ativas: ${riskAreas.size}"
+                Toast.makeText(this, "✓ $removedCount bairros de fora removidos com sucesso!", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Sua lista já contém apenas áreas de risco reais.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sua lista já contém apenas áreas de risco de $city.", Toast.LENGTH_SHORT).show()
             }
         }
 
