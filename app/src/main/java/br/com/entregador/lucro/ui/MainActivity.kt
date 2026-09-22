@@ -23,11 +23,14 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import br.com.entregador.lucro.network.CommunityRiskClient
 import br.com.entregador.lucro.network.ElevationClient
 import br.com.entregador.lucro.network.FuelPriceClient
+import br.com.entregador.lucro.network.UserLocationHelper
 import br.com.entregador.lucro.network.WeatherClient
 import br.com.entregador.lucro.R
 import br.com.entregador.lucro.data.repository.DeliveryHistoryRepository
@@ -107,9 +110,25 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cgRiskAreas: ChipGroup
     private val riskAreas = mutableListOf<String>()
 
-    // Telemetria Módulo A: Base Comunitária de Áreas de Risco
+    // Telemetria Módulo A: Base Comunitária de Áreas de Risco e Localização
+    private lateinit var etUserCity: EditText
+    private lateinit var etUserState: EditText
+    private lateinit var btnDetectGpsLocation: MaterialButton
     private lateinit var btnSyncCommunityRisk: MaterialButton
+    private lateinit var btnClearOtherStatesRisk: MaterialButton
     private lateinit var tvCommunityRiskSyncStatus: TextView
+
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val granted = permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] == true ||
+                      permissions[android.Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        if (granted) {
+            triggerGpsDetection()
+        } else {
+            Toast.makeText(this, "Permissão de GPS não concedida. Usando cidade padrão.", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     // Telemetria Módulo B: Piso Dinâmico de Mau Tempo / Chuva (Open-Meteo)
     private lateinit var cardRainMode: MaterialCardView
@@ -243,6 +262,26 @@ class MainActivity : AppCompatActivity() {
         setFloatingBubbleStatusUi(isRunning)
     }
 
+    private fun triggerGpsDetection() {
+        lifecycleScope.launch {
+            Toast.makeText(this@MainActivity, "📍 Consultando satélite GPS / Rede...", Toast.LENGTH_SHORT).show()
+            val locationInfo = UserLocationHelper.detectUserLocation(this@MainActivity)
+            etUserCity.setText(locationInfo.city)
+            etUserState.setText(locationInfo.state)
+            tvCommunityRiskSyncStatus.text = "📍 Localização detectada: ${locationInfo.city} - ${locationInfo.state}"
+            val updated = readSettingsFromUi().copy(
+                userCity = locationInfo.city,
+                userState = locationInfo.state
+            )
+            settingsRepository.saveSettings(updated)
+            Toast.makeText(
+                this@MainActivity,
+                "✓ Localização definida: ${locationInfo.displayName}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     private fun initViews() {
         // Views do Resumo do Turno de Hoje (Dashboard)
         tvDailyDate = findViewById(R.id.tvDailyDate)
@@ -292,7 +331,11 @@ class MainActivity : AppCompatActivity() {
         btnAddRiskArea = findViewById(R.id.btnAddRiskArea)
         tvRiskAreasCount = findViewById(R.id.tvRiskAreasCount)
         cgRiskAreas = findViewById(R.id.cgRiskAreas)
+        etUserCity = findViewById(R.id.etUserCity)
+        etUserState = findViewById(R.id.etUserState)
+        btnDetectGpsLocation = findViewById(R.id.btnDetectGpsLocation)
         btnSyncCommunityRisk = findViewById(R.id.btnSyncCommunityRisk)
+        btnClearOtherStatesRisk = findViewById(R.id.btnClearOtherStatesRisk)
         tvCommunityRiskSyncStatus = findViewById(R.id.tvCommunityRiskSyncStatus)
 
         // Telemetria Chuva (Módulo B)
@@ -480,27 +523,84 @@ class MainActivity : AppCompatActivity() {
             } else false
         }
 
-        // Sincronizar Base Comunitária de Áreas de Risco (Módulo A)
+        // Detecção de GPS para Localização (Módulo A)
+        btnDetectGpsLocation.setOnClickListener {
+            val hasFine = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            val hasCoarse = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+
+            if (hasFine || hasCoarse) {
+                triggerGpsDetection()
+            } else {
+                locationPermissionLauncher.launch(
+                    arrayOf(
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                )
+            }
+        }
+
+        // Sincronizar Base Comunitária de Áreas de Risco Filtrada por Região (Módulo A)
         btnSyncCommunityRisk.setOnClickListener {
             btnSyncCommunityRisk.isEnabled = false
-            tvCommunityRiskSyncStatus.text = "Sincronizando com a base comunitária..."
+            val city = etUserCity.text.toString().trim().ifEmpty { "Atibaia" }
+            val state = etUserState.text.toString().trim().uppercase(Locale.ROOT).ifEmpty { "SP" }
+            tvCommunityRiskSyncStatus.text = "Sincronizando bairros de $city e cidades vizinhas ($state)..."
             lifecycleScope.launch {
                 try {
-                    val syncResult = CommunityRiskClient.syncRiskAreas(riskAreas.toList()).getOrThrow()
+                    val syncResult = CommunityRiskClient.syncRegionalRiskAreas(
+                        existingList = riskAreas.toList(),
+                        userCity = city,
+                        userState = state,
+                        autoPruneOtherStates = true
+                    ).getOrThrow()
+
                     riskAreas.clear()
                     riskAreas.addAll(syncResult.updatedList)
                     val updatedSettings = readSettingsFromUi().copy(riskAreasList = riskAreas.toList())
                     settingsRepository.saveSettings(updatedSettings)
                     renderRiskAreaChips()
                     updateRiskAreasUi(swRiskAreasEnabled.isChecked)
-                    tvCommunityRiskSyncStatus.text = "✓ Sincronizado via ${syncResult.source}! +${syncResult.newAreasAdded} novos (Total: ${syncResult.totalAreas})"
-                    Toast.makeText(this@MainActivity, "✓ Base comunitária sincronizada! +${syncResult.newAreasAdded} novos bairros adicionados.", Toast.LENGTH_SHORT).show()
+
+                    val pruneMsg = if (syncResult.removedOtherStateAreas > 0) {
+                        " (${syncResult.removedOtherStateAreas} bairros de outros estados removidos)"
+                    } else ""
+                    tvCommunityRiskSyncStatus.text = "✓ Sincronizado para ${syncResult.regionDescription}! +${syncResult.newAreasAdded} novos$pruneMsg (Total: ${syncResult.totalAreas})"
+                    Toast.makeText(
+                        this@MainActivity,
+                        "✓ Região de $city sincronizada! +${syncResult.newAreasAdded} locais$pruneMsg",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } catch (e: Exception) {
                     tvCommunityRiskSyncStatus.text = "Erro ao sincronizar. Usando base local."
                     Toast.makeText(this@MainActivity, "Erro ao sincronizar áreas de risco: ${e.message}", Toast.LENGTH_SHORT).show()
                 } finally {
                     btnSyncCommunityRisk.isEnabled = true
                 }
+            }
+        }
+
+        // Limpar Bairros Conhecidos de Outros Estados (ex: Rio de Janeiro / MG)
+        btnClearOtherStatesRisk.setOnClickListener {
+            val cleaned = CommunityRiskClient.pruneUnrelatedStateAreas(riskAreas.toList())
+            val removedCount = riskAreas.size - cleaned.size
+            if (removedCount > 0) {
+                riskAreas.clear()
+                riskAreas.addAll(cleaned)
+                val updatedSettings = readSettingsFromUi().copy(riskAreasList = riskAreas.toList())
+                settingsRepository.saveSettings(updatedSettings)
+                renderRiskAreaChips()
+                updateRiskAreasUi(swRiskAreasEnabled.isChecked)
+                tvCommunityRiskSyncStatus.text = "✓ $removedCount bairros de fora removidos. Total ativo: ${riskAreas.size}"
+                Toast.makeText(this, "✓ $removedCount bairros de fora removidos com sucesso!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Nenhum bairro de outros estados encontrado na sua lista.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -850,6 +950,10 @@ class MainActivity : AppCompatActivity() {
         etMaxDistance.setText(String.format(Locale.US, "%.1f", settings.maxDistanceKm))
         etEmptyReturnPercent.setText(String.format(Locale.US, "%.0f", settings.emptyReturnPercent))
 
+        // Localização do Entregador (Módulo A)
+        etUserCity.setText(settings.userCity)
+        etUserState.setText(settings.userState)
+
         // Áreas de Risco (Fase 5)
         swRiskAreasEnabled.isChecked = settings.riskAreasEnabled
         swAutoRejectRiskAreas.isChecked = settings.autoRejectRiskAreas
@@ -990,6 +1094,8 @@ class MainActivity : AppCompatActivity() {
         val rainFloorBonus = parseDecimal(etRainFloorBonus.text.toString(), 3.00)
         val fuelStateCode = etFuelStateCode.text.toString().trim().uppercase(Locale.ROOT).ifEmpty { "SP" }
         val bikeElevation = swBikeElevation.isChecked
+        val userCity = etUserCity.text.toString().trim().ifEmpty { "Atibaia" }
+        val userState = etUserState.text.toString().trim().uppercase(Locale.ROOT).ifEmpty { "SP" }
 
         return DeliverySettings(
             vehicleType = vehicleType,
@@ -1015,7 +1121,9 @@ class MainActivity : AppCompatActivity() {
             rainModeEnabled = rainModeEnabled,
             rainFloorBonus = rainFloorBonus,
             fuelStateCode = fuelStateCode,
-            bikeElevationAlertEnabled = bikeElevation
+            bikeElevationAlertEnabled = bikeElevation,
+            userCity = userCity,
+            userState = userState
         )
     }
 

@@ -42,7 +42,9 @@ data class DeliverySettings(
     val rainModeEnabled: Boolean = false,
     val rainFloorBonus: Double = 3.00,
     val fuelStateCode: String = "SP",
-    val bikeElevationAlertEnabled: Boolean = true
+    val bikeElevationAlertEnabled: Boolean = true,
+    val userCity: String = "Atibaia",
+    val userState: String = "SP"
 ) {
     companion object {
         const val VEHICLE_MOTO = "MOTO"

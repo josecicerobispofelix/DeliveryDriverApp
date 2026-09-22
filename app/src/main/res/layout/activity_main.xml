@@ -1002,24 +1002,95 @@
                         android:paddingEnd="16dp" />
                 </LinearLayout>
 
-                <!-- Botão Sincronizar Base Comunitária de Áreas de Risco (Módulo A) -->
+                <!-- Configuração de Localização e Região para Áreas de Risco -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilUserCity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_marginEnd="6dp"
+                        android:hint="Sua Cidade"
+                        android:textColorHint="#9CA3AF"
+                        app:hintTextColor="#EF4444"
+                        app:boxStrokeColor="#EF4444"
+                        app:boxBackgroundColor="#1E293B">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etUserCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords"
+                            android:textColor="#FFFFFF"
+                            android:text="Atibaia" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilUserState"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:hint="UF"
+                        android:textColorHint="#9CA3AF"
+                        app:hintTextColor="#EF4444"
+                        app:boxStrokeColor="#EF4444"
+                        app:boxBackgroundColor="#1E293B">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etUserState"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapCharacters"
+                            android:maxLength="2"
+                            android:textColor="#FFFFFF"
+                            android:text="SP" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDetectGpsLocation"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📍 GPS"
+                        android:textSize="12sp"
+                        app:backgroundTint="#334155"
+                        android:textColor="#38BDF8" />
+                </LinearLayout>
+
+                <!-- Botão Sincronizar Base Comunitária Regional (Módulo A) -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSyncCommunityRisk"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="🌐 Sincronizar Base Comunitária (RJ, SP, BH...)"
+                    android:text="🌐 Sincronizar Região (Atibaia e Vizinhas)"
                     android:textColor="#EF4444"
                     app:strokeColor="#EF4444"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="4dp" />
 
+                <!-- Botão Limpar Bairros de Outros Estados (RJ/MG) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnClearOtherStatesRisk"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🧹 Limpar Bairros de Outros Estados (Ex: RJ)"
+                    android:textColor="#94A3B8"
+                    android:textSize="11sp"
+                    android:layout_marginBottom="4dp" />
+
                 <TextView
                     android:id="@+id/tvCommunityRiskSyncStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Base colaborativa disponível • Toque para mesclar"
+                    android:text="Filtro ativo: Apenas Atibaia e cidades vizinhas de SP"
                     android:textColor="#6B7280"
                     android:textSize="11sp"
                     android:layout_marginBottom="12dp" />

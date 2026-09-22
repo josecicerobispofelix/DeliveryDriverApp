@@ -58,7 +58,9 @@ class EncryptedDeliverySettingsRepository(
             rainModeEnabled = prefs.getBoolean(KEY_RAIN_MODE_ENABLED, defaultSettings.rainModeEnabled),
             rainFloorBonus = prefs.getFloat(KEY_RAIN_FLOOR_BONUS, defaultSettings.rainFloorBonus.toFloat()).toDouble(),
             fuelStateCode = prefs.getString(KEY_FUEL_STATE_CODE, defaultSettings.fuelStateCode) ?: defaultSettings.fuelStateCode,
-            bikeElevationAlertEnabled = prefs.getBoolean(KEY_BIKE_ELEVATION_ENABLED, defaultSettings.bikeElevationAlertEnabled)
+            bikeElevationAlertEnabled = prefs.getBoolean(KEY_BIKE_ELEVATION_ENABLED, defaultSettings.bikeElevationAlertEnabled),
+            userCity = prefs.getString(KEY_USER_CITY, defaultSettings.userCity) ?: defaultSettings.userCity,
+            userState = prefs.getString(KEY_USER_STATE, defaultSettings.userState) ?: defaultSettings.userState
         )
     }
 
@@ -88,6 +90,8 @@ class EncryptedDeliverySettingsRepository(
             .putFloat(KEY_RAIN_FLOOR_BONUS, settings.rainFloorBonus.toFloat())
             .putString(KEY_FUEL_STATE_CODE, settings.fuelStateCode)
             .putBoolean(KEY_BIKE_ELEVATION_ENABLED, settings.bikeElevationAlertEnabled)
+            .putString(KEY_USER_CITY, settings.userCity)
+            .putString(KEY_USER_STATE, settings.userState)
             .apply()
     }
 
@@ -125,5 +129,7 @@ class EncryptedDeliverySettingsRepository(
         private const val KEY_RAIN_FLOOR_BONUS = "rain_floor_bonus"
         private const val KEY_FUEL_STATE_CODE = "fuel_state_code"
         private const val KEY_BIKE_ELEVATION_ENABLED = "bike_elevation_enabled"
+        private const val KEY_USER_CITY = "user_city"
+        private const val KEY_USER_STATE = "user_state"
     }
 }
