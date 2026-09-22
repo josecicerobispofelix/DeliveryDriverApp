@@ -12,25 +12,25 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Cabeçalho -->
+        <!-- Cabeçalho Principal -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Configurações do Entregador"
+            android:text="KMCERTO"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="2dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Defina seus custos e metas operacionais para o cálculo de lucro em tempo real (iFood, Uber e 99)."
-            android:textSize="13sp"
+            android:text="Painel do Entregador • Toque no item para ver detalhes e configurar"
+            android:textSize="12sp"
             android:textColor="#9CA3AF"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="14dp" />
 
-        <!-- Card de Resumo do Turno de Hoje (Dashboard Diário - Estilo GigU) -->
+        <!-- Card de Resumo do Turno de Hoje (Dashboard Diário) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDailySummary"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                             android:id="@+id/tvDailyDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Turno atual • 21/09/2026"
+                            android:text="Turno atual • 22/09/2026"
                             android:textColor="#9CA3AF"
                             android:textSize="12sp"
                             android:layout_marginTop="2dp" />
@@ -133,7 +133,7 @@
                     android:textSize="12sp"
                     android:layout_marginBottom="12dp" />
 
-                <!-- Barra de Progresso da Meta Diária (Fase 6) -->
+                <!-- Barra de Progresso da Meta Diária -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -163,9 +163,9 @@
                             style="@style/Widget.Material3.Button.TextButton"
                             android:layout_width="wrap_content"
                             android:layout_height="32dp"
-                            android:text="Meta: R$ 200,00 ✎"
+                            android:text="Meta: R$ 200,00 ✏️"
                             android:textColor="#38BDF8"
-                            android:textSize="11sp"
+                            android:textSize="12sp"
                             android:minWidth="0dp"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
@@ -177,12 +177,12 @@
                         android:id="@+id/pbDailyGoal"
                         android:layout_width="match_parent"
                         android:layout_height="8dp"
-                        android:progress="0"
                         android:max="100"
-                        app:trackColor="#334155"
+                        android:progress="0"
                         app:indicatorColor="#00E676"
+                        app:trackColor="#334155"
                         app:trackCornerRadius="4dp"
-                        android:layout_marginBottom="6dp" />
+                        android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/tvDailyGoalProgress"
@@ -193,20 +193,21 @@
                         android:textSize="11sp" />
                 </LinearLayout>
 
-                <!-- Três Badges de Semáforo (Verdes, Amarelas, Recusadas) -->
+                <!-- Contadores de Entregas Avaliadas -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="12dp">
 
-                    <!-- Badge Verde -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:background="#1A00E676"
+                        android:background="#1E293B"
                         android:padding="8dp"
                         android:layout_marginEnd="4dp">
 
@@ -227,14 +228,13 @@
                             android:textSize="11sp" />
                     </LinearLayout>
 
-                    <!-- Badge Amarelo -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:background="#1AFFB300"
+                        android:background="#1E293B"
                         android:padding="8dp"
                         android:layout_marginStart="2dp"
                         android:layout_marginEnd="2dp">
@@ -256,14 +256,13 @@
                             android:textSize="11sp" />
                     </LinearLayout>
 
-                    <!-- Badge Vermelho -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:background="#1AEF4444"
+                        android:background="#1E293B"
                         android:padding="8dp"
                         android:layout_marginStart="4dp">
 
@@ -283,19 +282,16 @@
                             android:textColor="#EF4444"
                             android:textSize="11sp" />
                     </LinearLayout>
-
                 </LinearLayout>
 
-                <!-- Botão de Acesso ao Histórico Completo e Relatório WhatsApp -->
+                <!-- Botão Abrir Tela de Histórico Completo & Relatórios -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnOpenHistory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="46dp"
-                    android:layout_marginTop="12dp"
-                    android:text="📊 Histórico Completo &amp; Relatórios"
+                    android:layout_height="44dp"
+                    android:text="📜 Histórico Completo &amp; Relatórios"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:cornerRadius="10dp"
                     app:backgroundTint="#2563EB" />
@@ -303,7 +299,19 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card de Ativação do Modo Flutuante Permanente (Estilo GigU / StopClub) -->
+        <!-- Título da Seção de Configurações Rápidas -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONFIGURAÇÕES RÁPIDAS"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#6B7280"
+            android:letterSpacing="0.05"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- 1. Ícone Flutuante na Tela (Bolha) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardFloatingBubble"
             android:layout_width="match_parent"
@@ -311,817 +319,296 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#00E676"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
             app:cardBackgroundColor="#111827">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:src="@drawable/ic_kmcerto"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="Logo KMCERTO" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:src="@drawable/ic_kmcerto"
-                        android:layout_marginEnd="12dp"
-                        android:contentDescription="Logo KMCERTO" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ícone Flutuante na Tela"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvFloatingStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚪ Desativado (Toque para ativar o ícone flutuante)"
-                            android:textColor="#9CA3AF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swFloatingBubble"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:thumbTint="#00E676"
-                        app:trackTint="#334155" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Mantém a bolha do KMCERTO flutuando na borda da tela enquanto você usa outros aplicativos (iFood, Uber, 99 e Waze), exatamente igual ao GigU e StopClub."
-                    android:textColor="#D1D5DB"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card de Recusa Automática (Auto-Reject de Vermelhas - Estilo GigU) -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#EF4444"
-            app:cardBackgroundColor="#111827">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:text="🚫"
-                        android:textSize="26sp"
-                        android:gravity="center"
-                        android:layout_marginEnd="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Recusa Automática"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvAutoRejectStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚪ Desativado (Toque para ativar)"
-                            android:textColor="#9CA3AF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swAutoRejectRed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:thumbTint="#EF4444"
-                        app:trackTint="#334155" />
+                        android:text="Ícone Flutuante na Tela"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvFloatingStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚪ Desativado (Toque para detalhes)"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Quando o semáforo for VERMELHO, o KMCERTO clica em 'Recusar' ou 'Não aceitar' automaticamente no iFood, Uber e 99. Você pode ligar ou desligar quando quiser."
-                    android:textColor="#D1D5DB"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
 
-                <!-- Tempo de espera antes de recusar -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilAutoRejectDelay"
-                    android:layout_width="match_parent"
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swFloatingBubble"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Tempo de espera antes de recusar"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#EF4444"
-                    app:boxStrokeColor="#EF4444"
-                    app:boxBackgroundColor="#1E293B"
-                    app:suffixText=" segundos"
-                    app:suffixTextColor="#EF4444"
-                    app:helperText="Tempo para você ver o semáforo e cancelar se quiser (ex: 3)"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginTop="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAutoRejectDelay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textColor="#FFFFFF"
-                        android:text="3" />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    app:thumbTint="#00E676"
+                    app:trackTint="#334155" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card de Aceite Automático de Corridas Verdes (Fase 6 - Estilo GigU) -->
+        <!-- 2. Recusa Automática -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAutoReject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#00E676"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
             app:cardBackgroundColor="#111827">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="🚫"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:text="⚡"
-                        android:textSize="26sp"
-                        android:gravity="center"
-                        android:layout_marginEnd="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Aceite Automático (Auto-Accept)"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvAutoAcceptStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚪ Desativado (Toque para ativar)"
-                            android:textColor="#9CA3AF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swAutoAcceptEnabled"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:useMaterialThemeColors="true" />
+                        android:text="Recusa Automática"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAutoRejectStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚪ Desativado (Semáforo Vermelho)"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🛡️ Trava de Segurança: Toca no botão 'Aceitar' em fração de segundo apenas se a corrida for classificada com Semáforo VERDE, cumprir seus pisos de lucro e estiver fora de áreas de risco."
-                    android:textColor="#D1D5DB"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
 
-                <!-- Tempo de espera antes de aceitar -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swAutoRejectRed"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Tempo de espera antes de aceitar"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:suffixText=" segundos"
-                    app:suffixTextColor="#00E676"
-                    app:helperText="Intervalo para você ver o semáforo ou cancelar no card (ex: 1)"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginTop="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etAutoAcceptDelay"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textColor="#FFFFFF"
-                        android:text="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    app:thumbTint="#EF4444"
+                    app:trackTint="#334155" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card de Filtros de Proteção Avançados (Anti-Prejuízo - Estilo GigU) -->
+        <!-- 3. Aceite Automático -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAutoAccept"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#F59E0B"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
             app:cardBackgroundColor="#111827">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="⚡"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:text="🛡️"
-                        android:textSize="26sp"
-                        android:gravity="center"
-                        android:layout_marginEnd="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="Aceite Automático"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Filtros Anti-Prejuízo"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Proteção contra corridas longas ou trocados"
-                            android:textColor="#F59E0B"
-                            android:textSize="12sp" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvAutoAcceptStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚪ Desativado (Semáforo Verde)"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Filtros idênticos ao GigU para nunca aceitar corridas que não compensam o deslocamento."
-                    android:textColor="#D1D5DB"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="12dp" />
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
 
-                <!-- Piso Mínimo de Valor Bruto -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilMinGrossValue"
-                    android:layout_width="match_parent"
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swAutoAcceptEnabled"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Piso Mínimo da Corrida"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#F59E0B"
-                    app:boxStrokeColor="#F59E0B"
-                    app:boxBackgroundColor="#1E293B"
-                    app:prefixText="R$ "
-                    app:prefixTextColor="#F59E0B"
-                    app:helperText="Corridas abaixo deste valor vão para Vermelho (0 desativa). Ex: 7,00"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etMinGrossValue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textColor="#FFFFFF"
-                        android:text="0,00" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Teto Máximo de Distância -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilMaxDistance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Teto de Distância Máxima"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#F59E0B"
-                    app:boxStrokeColor="#F59E0B"
-                    app:boxBackgroundColor="#1E293B"
-                    app:suffixText=" km"
-                    app:suffixTextColor="#F59E0B"
-                    app:helperText="Corridas acima deste km vão para Vermelho (0 desativa). Ex: 15.0"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etMaxDistance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="0.0" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Volta Vazia / Retorno (%) -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilEmptyReturnPercent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Retorno Vazio / Volta"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#F59E0B"
-                    app:boxStrokeColor="#F59E0B"
-                    app:boxBackgroundColor="#1E293B"
-                    app:suffixText=" %"
-                    app:suffixTextColor="#F59E0B"
-                    app:helperText="Adiciona % extra de km e tempo de retorno no custo real (ex: 20%)"
-                    app:helperTextTextColor="#9CA3AF">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etEmptyReturnPercent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="0" />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    app:thumbTint="#00E676"
+                    app:trackTint="#334155" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Card de Piso Dinâmico de Mau Tempo / Chuva (Fase 8 - Open-Meteo) -->
+        <!-- 4. Filtros Anti-Prejuízo -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAntiWaste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
+            app:cardBackgroundColor="#111827">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="🛡️"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Filtros Anti-Prejuízo"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAntiWasteStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚪ Inativo (Piso R$ e Km máx)"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swAntiWaste"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#F59E0B"
+                    app:trackTint="#334155" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 5. Piso Dinâmico de Chuva -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardRainMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#0284C7"
-            app:cardBackgroundColor="#111827">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:text="🌧️"
-                        android:textSize="26sp"
-                        android:gravity="center"
-                        android:layout_marginEnd="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Piso Dinâmico de Chuva"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvRainStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="☀️ Tempo Firme • Toque abaixo para verificar"
-                            android:textColor="#38BDF8"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swRainMode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:thumbTint="#0284C7"
-                        app:trackTint="#334155" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Adiciona um valor extra no piso mínimo bruto durante chuvas ou pista molhada. Monitora automaticamente via Open-Meteo sem precisar de chave de API."
-                    android:textColor="#D1D5DB"
-                    android:textSize="12sp"
-                    android:layout_marginTop="8dp" />
-
-                <!-- Bônus de Chuva no Piso -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilRainFloorBonus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Adicional no Piso em Chuva"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#0284C7"
-                    app:boxStrokeColor="#0284C7"
-                    app:boxBackgroundColor="#1E293B"
-                    app:prefixText="R$ "
-                    app:prefixTextColor="#0284C7"
-                    app:helperText="Ex: 3,00 adicionados ao piso mínimo quando estiver chovendo"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginTop="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etRainFloorBonus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="3.00" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Botão Consultar Clima Agora -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCheckWeatherNow"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="🌤️ Consultar Clima em Tempo Real (Open-Meteo)"
-                    android:textColor="#38BDF8"
-                    app:strokeColor="#0284C7"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp" />
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card de Proteção de Áreas de Risco (Fase 5 - Estilo GigU) -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
             app:cardElevation="2dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#EF4444"
-            app:cardBackgroundColor="#111827">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <!-- Header com Ícone de Alerta -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:text="🚨"
-                        android:textSize="24sp"
-                        android:gravity="center"
-                        android:layout_marginEnd="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Áreas de Risco (Blacklist)"
-                            android:textColor="#FFFFFF"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Proteção e bloqueio de bairros perigosos"
-                            android:textColor="#EF4444"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Detecta automaticamente o bairro no iFood, Uber e 99. Se for área de risco cadastrada, rebaixa imediatamente para Vermelho e avisa por voz."
-                    android:textColor="#D1D5DB"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="14dp" />
-
-                <!-- Switch 1: Ativar Proteção de Áreas de Risco -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vigiar Áreas de Risco"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvRiskAreasStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="⚪ Desativado"
-                            android:textColor="#9CA3AF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swRiskAreasEnabled"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:useMaterialThemeColors="true" />
-                </LinearLayout>
-
-                <!-- Switch 2: Recusa Automática em Área de Risco -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Auto-Recusar Risco"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Recusa sem esperar confirmação"
-                            android:textColor="#9CA3AF"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swAutoRejectRiskAreas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:useMaterialThemeColors="true" />
-                </LinearLayout>
-
-                <!-- Campo para adicionar Bairro com Botão '+' -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="10dp">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilAddRiskArea"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Adicionar Bairro / Favela"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#EF4444"
-                        app:boxStrokeColor="#EF4444"
-                        app:boxBackgroundColor="#1E293B"
-                        android:layout_marginEnd="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etAddRiskArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textCapWords"
-                            android:textColor="#FFFFFF"
-                            android:imeOptions="actionDone" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAddRiskArea"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="+"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="12dp"
-                        app:backgroundTint="#EF4444"
-                        android:textColor="#FFFFFF"
-                        android:minWidth="48dp"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp" />
-                </LinearLayout>
-
-                <!-- Configuração de Localização e Região para Áreas de Risco -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilUserCity"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:layout_marginEnd="6dp"
-                        android:hint="Sua Cidade"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#EF4444"
-                        app:boxStrokeColor="#EF4444"
-                        app:boxBackgroundColor="#1E293B">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etUserCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textCapWords"
-                            android:textColor="#FFFFFF"
-                            android:text="Atibaia" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilUserState"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="6dp"
-                        android:hint="UF"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#EF4444"
-                        app:boxStrokeColor="#EF4444"
-                        app:boxBackgroundColor="#1E293B">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etUserState"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textCapCharacters"
-                            android:maxLength="2"
-                            android:textColor="#FFFFFF"
-                            android:text="SP" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnDetectGpsLocation"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📍 GPS"
-                        android:textSize="12sp"
-                        app:backgroundTint="#334155"
-                        android:textColor="#38BDF8" />
-                </LinearLayout>
-
-                <!-- Botão Sincronizar Base Comunitária da Cidade (Módulo A) -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSyncCommunityRisk"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="🌐 Sincronizar Áreas de Risco da Sua Cidade"
-                    android:textColor="#EF4444"
-                    app:strokeColor="#EF4444"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="4dp" />
-
-                <!-- Botão Limpar Bairros de Outras Cidades / Estados -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnClearOtherStatesRisk"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="🧹 Limpar Bairros de Fora / Outras Cidades"
-                    android:textColor="#94A3B8"
-                    android:textSize="11sp"
-                    android:layout_marginBottom="4dp" />
-
-                <TextView
-                    android:id="@+id/tvCommunityRiskSyncStatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Filtro ativo: Apenas áreas de risco de Atibaia - SP"
-                    android:textColor="#6B7280"
-                    android:textSize="11sp"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Grupo de Chips dos Bairros Cadastrados -->
-                <TextView
-                    android:id="@+id/tvRiskAreasCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bairros cadastrados (0):"
-                    android:textColor="#9CA3AF"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="6dp" />
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/cgRiskAreas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:chipSpacingHorizontal="8dp"
-                    app:chipSpacingVertical="4dp" />
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card de Configurações Operacionais -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             app:strokeWidth="1dp"
             app:strokeColor="#1F2937"
             app:cardBackgroundColor="#111827">
@@ -1129,486 +616,280 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
 
-                <!-- Seleção do Veículo -->
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="🌧️"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Piso Dinâmico de Chuva"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvRainStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="☀️ Modo Chuva Inativo"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tipo de Veículo"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginBottom="8dp" />
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
 
-                <RadioGroup
-                    android:id="@+id/rgVehicleType"
-                    android:layout_width="match_parent"
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swRainMode"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-
-                    <RadioButton
-                        android:id="@+id/rbMoto"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="🛵 Moto"
-                        android:textColor="#FFFFFF"
-                        app:buttonTint="#00E676"
-                        android:checked="true"
-                        android:textSize="15sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbBike"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="🚲 Bike"
-                        android:textColor="#FFFFFF"
-                        app:buttonTint="#00E676"
-                        android:textSize="15sp" />
-                </RadioGroup>
-
-                <!-- Opção de Alerta de Subidas / Relevo para Bike (Módulo D) -->
-                <LinearLayout
-                    android:id="@+id/layoutBikeElevation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="#1E293B"
-                    android:padding="12dp"
-                    android:visibility="gone"
-                    android:layout_marginBottom="12dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:text="🚴"
-                            android:textSize="20sp"
-                            android:gravity="center"
-                            android:layout_marginEnd="8dp" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Alerta de Subida Forte (Bike)"
-                                android:textColor="#FFFFFF"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Penaliza corridas com morros/serras íngremes"
-                                android:textColor="#9CA3AF"
-                                android:textSize="11sp" />
-                        </LinearLayout>
-
-                        <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/swBikeElevation"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            app:thumbTint="#00E676"
-                            app:trackTint="#334155" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Preço do Combustível -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilFuelPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Preço do Litro do Combustível"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:prefixText="R$ "
-                    app:prefixTextColor="#00E676"
-                    app:helperText="Ex: 5,80 por litro"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etFuelPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="5.80" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Sincronização de Preço Médio ANP por Estado (Módulo C) -->
-                <LinearLayout
-                    android:id="@+id/layoutFuelAnpSync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilFuelStateCode"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
-                        android:hint="UF"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#00E676"
-                        app:boxStrokeColor="#00E676"
-                        app:boxBackgroundColor="#1E293B">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFuelStateCode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textCapCharacters"
-                            android:maxLength="2"
-                            android:textColor="#FFFFFF"
-                            android:text="SP" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnSyncFuelPrice"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:text="⛽ Buscar Média ANP"
-                        android:textColor="#00E676"
-                        app:strokeColor="#00E676"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- Consumo Médio -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilFuelConsumption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Consumo Médio do Veículo"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:suffixText=" km/l"
-                    app:suffixTextColor="#00E676"
-                    app:helperText="Ex: 35,0 km por litro"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etFuelConsumption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="35.0" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Custo de Manutenção por Km -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilMaintenanceCost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Custo de Manutenção / Desgaste"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:prefixText="R$ "
-                    app:prefixTextColor="#00E676"
-                    app:suffixText=" /km"
-                    app:suffixTextColor="#9CA3AF"
-                    app:helperText="Óleo, relação, pneus, freios. Ex: 0,12"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etMaintenanceCost"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="0.12" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Tempo de Espera Restaurante -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilWaitBuffer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Espera Estimada no Restaurante"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:suffixText=" min"
-                    app:suffixTextColor="#00E676"
-                    app:helperText="Tempo médio aguardando o pedido. Ex: 10"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etWaitBuffer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textColor="#FFFFFF"
-                        android:text="10" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Meta Mínima por Km -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilTargetKm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Meta Líquida Mínima por Km"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:prefixText="R$ "
-                    app:prefixTextColor="#00E676"
-                    app:suffixText=" /km"
-                    app:suffixTextColor="#9CA3AF"
-                    app:helperText="Seu valor mínimo por quilômetro rodado. Ex: 2,00"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="12dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTargetKm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="2.00" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Meta Mínima por Hora -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilTargetHour"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Meta Líquida Mínima por Hora"
-                    android:textColorHint="#9CA3AF"
-                    app:hintTextColor="#00E676"
-                    app:boxStrokeColor="#00E676"
-                    app:boxBackgroundColor="#1E293B"
-                    app:prefixText="R$ "
-                    app:prefixTextColor="#00E676"
-                    app:suffixText=" /h"
-                    app:suffixTextColor="#9CA3AF"
-                    app:helperText="Sua meta de faturamento líquido horário. Ex: 25,00"
-                    app:helperTextTextColor="#9CA3AF"
-                    android:layout_marginBottom="16dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTargetHour"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:textColor="#FFFFFF"
-                        android:text="25.00" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Switch de Avisos por Voz com Botão de Teste -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swVoiceAlerts"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Avisos por voz (TTS)"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:thumbTint="#00E676"
-                        app:trackTint="#334155"
-                        android:checked="true" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnTestVoice"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔊 Testar Voz"
-                        android:textColor="#00E676"
-                        app:strokeColor="#00E676"
-                        android:textSize="12sp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp" />
-                </LinearLayout>
-
-                <!-- Switch de Sons Curtos / Bipes (SoundPool) com Botão de Teste -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="16dp">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/swSoundAlerts"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Sons Curtos / Bipes"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        app:thumbTint="#00E676"
-                        app:trackTint="#334155"
-                        android:checked="true" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnTestSound"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔔 Testar Som"
-                        android:textColor="#38BDF8"
-                        app:strokeColor="#38BDF8"
-                        android:textSize="12sp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp" />
-                </LinearLayout>
-
-                <!-- Botões de Ação -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSaveSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Salvar Configurações"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:backgroundTint="#00E676"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:layout_marginBottom="8dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnResetDefaults"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#9CA3AF"
-                    android:text="Restaurar Valores Padrão" />
-
-                <TextView
-                    android:id="@+id/tvStorageStatus"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Persistência: EncryptedSharedPreferences (AES-256)"
-                    android:textSize="12sp"
-                    android:textColor="#6B7280"
-                    android:gravity="center"
-                    android:layout_marginTop="4dp" />
-
+                    app:thumbTint="#0284C7"
+                    app:trackTint="#334155" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Secção Visual de Divulgação Destacada (Prominent Disclosure) -->
+        <!-- 6. Áreas de Risco (Atibaia) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRiskAreas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
+            app:cardBackgroundColor="#111827">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="🚨"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Áreas de Risco (Atibaia)"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvRiskAreasStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚪ Desativado (Toque para detalhes)"
+                        android:textColor="#9CA3AF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swRiskAreasEnabled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#EF4444"
+                    app:trackTint="#334155" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 7. Veículo, Custos & Metas -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardVehicleFuel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
+            app:cardBackgroundColor="#111827">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="🛵"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Veículo, Custos &amp; Metas"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvVehicleFuelStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🛵 Moto • R$ 2,00/km • R$ 25/h"
+                        android:textColor="#00E676"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚙️ ›"
+                    android:textColor="#6B7280"
+                    android:textSize="18sp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 8. Alertas Sonoros & Simulação -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAlertsTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#1F2937"
+            app:cardBackgroundColor="#111827">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="🔊"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alertas Sonoros &amp; Testes"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAlertsStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔊 Voz TTS e bipes ativos"
+                        android:textColor="#38BDF8"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ℹ️"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swVoiceAlerts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:thumbTint="#00E676"
+                    app:trackTint="#334155" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 9. Serviço de Acessibilidade -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardProminentDisclosure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp"
-            app:strokeWidth="1.5dp"
-            app:strokeColor="#374151"
-            app:cardBackgroundColor="#111827">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Divulgação Destacada (Acessibilidade)"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:id="@+id/tvDisclosureBadge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Google Play Policy"
-                        android:textSize="11sp"
-                        android:textColor="#60A5FA"
-                        android:textStyle="bold"
-                        android:background="#1E293B"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp" />
-                </LinearLayout>
-
-                <!-- Mensagem explicativa clara exigida -->
-                <TextView
-                    android:id="@+id/tvDisclosureNotice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="O KMCERTO necessita do Serviço de Acessibilidade unicamente para detetar o valor, distância e tempo nos ecrãs dos pedidos do iFood, Uber e 99. Nenhum dado pessoal, palavra-passe ou mensagem privada é lido, gravado ou partilhado."
-                    android:textSize="13sp"
-                    android:textColor="#D1D5DB"
-                    android:lineSpacingExtra="3dp"
-                    android:layout_marginBottom="12dp" />
-
-                <TextView
-                    android:id="@+id/tvAccessibilityStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Status: Desativado"
-                    android:textSize="13sp"
-                    android:textStyle="bold"
-                    android:textColor="#EF4444"
-                    android:layout_marginBottom="12dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnEnableAccessibility"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ativar Serviço de Acessibilidade"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:backgroundTint="#00E676" />
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card de Teste Rápido com Semáforo -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="14dp"
             app:cardElevation="2dp"
             android:layout_marginBottom="16dp"
             app:strokeWidth="1dp"
@@ -1618,248 +899,71 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="14dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
 
                 <TextView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:text="♿"
+                    android:textSize="22sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Serviço de Acessibilidade"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAccessibilityStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status: Desativado"
+                        android:textColor="#EF4444"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvDisclosureBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Simulação Rápida de Oferta"
-                    android:textSize="16sp"
+                    android:text="Ativar ›"
+                    android:textSize="12sp"
+                    android:textColor="#38BDF8"
                     android:textStyle="bold"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginBottom="8dp" />
-
-                <RadioGroup
-                    android:id="@+id/rgPlatform"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp">
-
-                    <RadioButton
-                        android:id="@+id/rbIfood"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="iFood"
-                        android:textColor="#FFFFFF"
-                        app:buttonTint="#00E676"
-                        android:checked="true" />
-
-                    <RadioButton
-                        android:id="@+id/rbUber"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Uber"
-                        android:textColor="#FFFFFF"
-                        app:buttonTint="#00E676" />
-
-                    <RadioButton
-                        android:id="@+id/rb99"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="99"
-                        android:textColor="#FFFFFF"
-                        app:buttonTint="#00E676" />
-                </RadioGroup>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Valor (R$)"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#00E676"
-                        app:boxStrokeColor="#00E676"
-                        app:boxBackgroundColor="#1E293B"
-                        android:layout_marginEnd="6dp">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOfferGrossValue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:textColor="#FFFFFF"
-                            android:text="18.50" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Km Total"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#00E676"
-                        app:boxStrokeColor="#00E676"
-                        app:boxBackgroundColor="#1E293B"
-                        android:layout_marginEnd="6dp">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOfferDistance"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
-                            android:textColor="#FFFFFF"
-                            android:text="5.2" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Tempo (min)"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#00E676"
-                        app:boxStrokeColor="#00E676"
-                        app:boxBackgroundColor="#1E293B">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOfferTime"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textColor="#FFFFFF"
-                            android:text="18" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Destino / Bairro (Risco)"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#00E676"
-                        app:boxStrokeColor="#00E676"
-                        app:boxBackgroundColor="#1E293B"
-                        android:layout_marginEnd="6dp">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOfferDestination"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textCapWords"
-                            android:textColor="#FFFFFF"
-                            android:hint="Ex: Moema, Centro" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="110dp"
-                        android:layout_height="wrap_content"
-                        android:hint="Entregas"
-                        android:textColorHint="#9CA3AF"
-                        app:hintTextColor="#00E676"
-                        app:boxStrokeColor="#00E676"
-                        app:boxBackgroundColor="#1E293B">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOfferOrderCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textColor="#FFFFFF"
-                            android:text="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCalculateOffer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Calcular Semáforo da Corrida"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:backgroundTint="#00E676"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnTestOverlay"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Testar Overlay"
-                    android:textColor="#00E676"
-                    app:strokeColor="#00E676"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Card de Status do Semáforo -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardResult"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
-                    app:strokeWidth="1.5dp"
-                    app:strokeColor="#374151"
-                    app:cardBackgroundColor="#1E293B">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="14dp">
-
-                        <TextView
-                            android:id="@+id/tvVerdict"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Clique em Calcular para avaliar a oferta"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="#E5E7EB"
-                            android:gravity="center"
-                            android:layout_marginBottom="8dp" />
-
-                        <TextView
-                            android:id="@+id/tvNetProfit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Lucro Líquido: --"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="#00E676"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:id="@+id/tvRates"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ganho/Km: -- | Ganho/Hora: --"
-                            android:textSize="13sp"
-                            android:textColor="#D1D5DB"
-                            android:layout_marginBottom="4dp" />
-
-                        <TextView
-                            android:id="@+id/tvCostsBreakdown"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Combustível/km: -- | Custo Rota: --"
-                            android:textSize="12sp"
-                            android:textColor="#9CA3AF"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:id="@+id/tvTimeBreakdown"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tempo Total: --"
-                            android:textSize="12sp"
-                            android:textColor="#9CA3AF" />
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
+                    android:background="#1E293B"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- Status de Armazenamento Seguro -->
+        <TextView
+            android:id="@+id/tvStorageStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Persistência: EncryptedSharedPreferences (AES-256)"
+            android:textSize="12sp"
+            android:textColor="#6B7280"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 </ScrollView>

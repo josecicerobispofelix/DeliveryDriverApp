@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:background="#111827">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Cabeçalho -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="🚨"
+                android:textSize="26sp"
+                android:gravity="center"
+                android:layout_marginEnd="10dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Áreas de Risco (Blacklist)"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Proteção e bloqueio de locais perigosos"
+                    android:textColor="#EF4444"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Explicação do que se trata -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#334155"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="ℹ️ Do que se trata:\nO KMCERTO lê o bairro do destino na tela da oferta do iFood, Uber ou 99. Se for um local classificado como perigoso ou área de risco, a corrida é rebaixada imediatamente para VERMELHO com alerta sonoro ou de voz para proteger a sua vida e a sua moto/bike."
+                android:textColor="#CBD5E1"
+                android:textSize="13sp"
+                android:lineSpacingExtra="3dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Switch de Auto-Recusar Risco -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#1E293B"
+            android:padding="12dp"
+            android:layout_marginBottom="14dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auto-Recusar Risco"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recusa sem esperar confirmação manual"
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swDialogAutoRejectRisk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:thumbTint="#EF4444"
+                app:trackTint="#334155" />
+        </LinearLayout>
+
+        <!-- Configuração de Localização e Cidade -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDialogUserCity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginEnd="6dp"
+                android:hint="Sua Cidade"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#EF4444"
+                app:boxStrokeColor="#EF4444"
+                app:boxBackgroundColor="#1E293B">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogUserCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:textColor="#FFFFFF"
+                    android:text="Atibaia" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDialogUserState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:hint="UF"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#EF4444"
+                app:boxStrokeColor="#EF4444"
+                app:boxBackgroundColor="#1E293B">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogUserState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="2"
+                    android:textColor="#FFFFFF"
+                    android:text="SP" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialogDetectGps"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📍 GPS"
+                android:textSize="12sp"
+                app:backgroundTint="#334155"
+                android:textColor="#38BDF8"
+                app:cornerRadius="10dp" />
+        </LinearLayout>
+
+        <!-- Botão Sincronizar Base Comunitária -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialogSyncCommunityRisk"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌐 Sincronizar Áreas de Risco da Sua Cidade"
+            android:textColor="#EF4444"
+            app:strokeColor="#EF4444"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:cornerRadius="10dp"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Botão Limpar Bairros de Fora / Outras Cidades -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialogClearOtherStates"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🧹 Limpar Bairros de Fora / Outras Cidades"
+            android:textColor="#94A3B8"
+            android:textSize="11sp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvDialogRiskSyncStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filtro ativo: Apenas áreas de risco de Atibaia - SP"
+            android:textColor="#6B7280"
+            android:textSize="11sp"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Campo para adicionar Bairro com Botão '+' -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDialogAddRiskArea"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Adicionar Bairro Perigoso"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#EF4444"
+                app:boxStrokeColor="#EF4444"
+                app:boxBackgroundColor="#1E293B"
+                android:layout_marginEnd="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogAddRiskArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:textColor="#FFFFFF"
+                    android:imeOptions="actionDone" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialogAddRiskArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp"
+                app:backgroundTint="#EF4444"
+                android:textColor="#FFFFFF"
+                android:minWidth="48dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+        </LinearLayout>
+
+        <!-- Grupo de Chips dos Bairros Cadastrados -->
+        <TextView
+            android:id="@+id/tvDialogRiskAreasCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bairros cadastrados (0):"
+            android:textColor="#9CA3AF"
+            android:textSize="12sp"
+            android:layout_marginBottom="6dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgDialogRiskAreas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="8dp"
+            app:chipSpacingVertical="4dp" />
+
+    </LinearLayout>
+</ScrollView>

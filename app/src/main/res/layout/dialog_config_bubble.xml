@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#111827">
+
+    <!-- Cabeçalho -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_kmcerto"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="Logo KMCERTO" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ícone Flutuante na Tela"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDialogFloatingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚪ Desativado"
+                android:textColor="#9CA3AF"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Explicação do que se trata -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#1E293B"
+        app:cardCornerRadius="12dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#334155"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:text="ℹ️ Do que se trata:\nMantém a bolha do KMCERTO flutuando na borda da tela enquanto você usa outros aplicativos (iFood, Uber, 99 e Waze), exatamente igual ao GigU e StopClub. Ao tocar na bolha, você acessa seus lucros, zera o turno ou abre as configurações sem sair do app de corrida."
+            android:textColor="#CBD5E1"
+            android:textSize="13sp"
+            android:lineSpacingExtra="3dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botão de Autorizar Permissão de Sobreposição -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDialogOverlayPermission"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⚙️ Configurar Permissão de Sobreposição"
+        android:textColor="#38BDF8"
+        app:strokeColor="#38BDF8"
+        app:cornerRadius="10dp"
+        android:layout_marginBottom="8dp" />
+
+</LinearLayout>

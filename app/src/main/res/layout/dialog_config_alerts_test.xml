@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:background="#111827">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Cabeçalho -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="🔊"
+                android:textSize="26sp"
+                android:gravity="center"
+                android:layout_marginEnd="10dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alertas Sonoros &amp; Testes"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Voz TTS, bipes e simulador"
+                    android:textColor="#38BDF8"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Explicação do que se trata -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#1E293B"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#334155"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:text="ℹ️ Do que se trata:\nPermite ouvir o semáforo falado por voz ('Verde: 18 reais, 5 km') e bipes de alerta no fone de ouvido ou capacete sem precisar olhar para a tela. Abaixo, você pode testar o áudio e simular qualquer corrida na hora para ver o card flutuante em ação."
+                android:textColor="#CBD5E1"
+                android:textSize="13sp"
+                android:lineSpacingExtra="3dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Switch Avisos por Voz com Botão de Teste -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#1E293B"
+            android:padding="12dp"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swDialogVoiceAlerts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Avisos por voz (TTS)"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:thumbTint="#00E676"
+                app:trackTint="#334155"
+                android:checked="true" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialogTestVoice"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔊 Testar"
+                android:textColor="#00E676"
+                app:strokeColor="#00E676"
+                android:textSize="12sp"
+                app:cornerRadius="8dp" />
+        </LinearLayout>
+
+        <!-- Switch Sons Curtos / Bipes com Botão de Teste -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#1E293B"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swDialogSoundAlerts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sons Curtos / Bipes"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:thumbTint="#00E676"
+                app:trackTint="#334155"
+                android:checked="true" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialogTestSound"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔔 Testar"
+                android:textColor="#38BDF8"
+                app:strokeColor="#38BDF8"
+                android:textSize="12sp"
+                app:cornerRadius="8dp" />
+        </LinearLayout>
+
+        <!-- Divisor para Simulação -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simulação Rápida de Oferta"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <RadioGroup
+            android:id="@+id/rgDialogPlatform"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <RadioButton
+                android:id="@+id/rbDialogIfood"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="iFood"
+                android:textColor="#FFFFFF"
+                app:buttonTint="#00E676"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rbDialogUber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Uber"
+                android:textColor="#FFFFFF"
+                app:buttonTint="#00E676" />
+
+            <RadioButton
+                android:id="@+id/rbDialog99"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="99"
+                android:textColor="#FFFFFF"
+                app:buttonTint="#00E676" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Valor (R$)"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#00E676"
+                app:boxStrokeColor="#00E676"
+                app:boxBackgroundColor="#1E293B"
+                android:layout_marginEnd="6dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogOfferGrossValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:textColor="#FFFFFF"
+                    android:text="18.50" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Km Total"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#00E676"
+                app:boxStrokeColor="#00E676"
+                app:boxBackgroundColor="#1E293B"
+                android:layout_marginEnd="6dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogOfferDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:textColor="#FFFFFF"
+                    android:text="5.2" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Minutos"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#00E676"
+                app:boxStrokeColor="#00E676"
+                app:boxBackgroundColor="#1E293B">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogOfferTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="#FFFFFF"
+                    android:text="18" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Destino / Bairro (Risco)"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#00E676"
+                app:boxStrokeColor="#00E676"
+                app:boxBackgroundColor="#1E293B"
+                android:layout_marginEnd="6dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogOfferDestination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:textColor="#FFFFFF"
+                    android:hint="Ex: Centro" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:hint="Entregas"
+                android:textColorHint="#9CA3AF"
+                app:hintTextColor="#00E676"
+                app:boxStrokeColor="#00E676"
+                app:boxBackgroundColor="#1E293B">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDialogOfferOrderCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textColor="#FFFFFF"
+                    android:text="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialogCalculateOffer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calcular Semáforo da Corrida"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:backgroundTint="#00E676"
+            app:cornerRadius="10dp"
+            android:layout_marginBottom="6dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDialogTestOverlay"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Testar Janela Flutuante (Overlay)"
+            android:textColor="#00E676"
+            app:strokeColor="#00E676"
+            app:cornerRadius="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Card de Resultado do Semáforo -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardDialogResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="#374151"
+            app:cardBackgroundColor="#1E293B">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/tvDialogVerdict"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Clique em Calcular para avaliar a oferta"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#E5E7EB"
+                    android:gravity="center"
+                    android:layout_marginBottom="6dp" />
+
+                <TextView
+                    android:id="@+id/tvDialogNetProfit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lucro Líquido: --"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#00E676"
+                    android:layout_marginBottom="3dp" />
+
+                <TextView
+                    android:id="@+id/tvDialogRates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ganho/Km: -- | Ganho/Hora: --"
+                    android:textSize="12sp"
+                    android:textColor="#D1D5DB"
+                    android:layout_marginBottom="3dp" />
+
+                <TextView
+                    android:id="@+id/tvDialogCostsBreakdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Combustível/km: -- | Custo Rota: --"
+                    android:textSize="12sp"
+                    android:textColor="#9CA3AF"
+                    android:layout_marginBottom="2dp" />
+
+                <TextView
+                    android:id="@+id/tvDialogTimeBreakdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tempo Total: --"
+                    android:textSize="12sp"
+                    android:textColor="#9CA3AF" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

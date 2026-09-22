@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#111827">
+
+    <!-- Cabeçalho -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="⚡"
+            android:textSize="26sp"
+            android:gravity="center"
+            android:layout_marginEnd="10dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aceite Automático"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trava de Segurança (Semáforo Verde)"
+                android:textColor="#00E676"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Explicação do que se trata -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#1E293B"
+        app:cardCornerRadius="12dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#334155"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:text="ℹ️ Do que se trata:\nO KMCERTO clica em 'Aceitar' em fração de segundo apenas quando o pedido for classificado com Semáforo VERDE, bater seu piso de lucro e estiver fora de áreas de risco. Garante que corridas excelentes não escapem para outros motoristas."
+            android:textColor="#CBD5E1"
+            android:textSize="13sp"
+            android:lineSpacingExtra="3dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Tempo de Espera em Segundos -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDialogAutoAcceptDelay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tempo de espera antes de aceitar"
+        android:textColorHint="#9CA3AF"
+        app:hintTextColor="#00E676"
+        app:boxStrokeColor="#00E676"
+        app:boxBackgroundColor="#1E293B"
+        app:suffixText=" segundos"
+        app:suffixTextColor="#00E676"
+        app:helperText="Intervalo para você ver o semáforo antes do clique (ex: 1)"
+        app:helperTextTextColor="#9CA3AF"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDialogAutoAcceptDelay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:text="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
