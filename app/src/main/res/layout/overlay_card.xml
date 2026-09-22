@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overlayRootLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_overlay_card"
+    android:padding="12dp"
+    android:elevation="8dp">
+
+    <!-- Header: Indicador Semáforo, Status e Botão Fechar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <!-- Círculo indicador com cor do semáforo -->
+        <View
+            android:id="@+id/viewTrafficLightIndicator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/bg_circle_indicator"
+            android:layout_marginEnd="6dp" />
+
+        <!-- Status do Semáforo (ex: VERDE - BOA OFERTA) -->
+        <TextView
+            android:id="@+id/tvOverlayStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🟢 BOA OFERTA (iFood)"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:singleLine="true" />
+
+        <!-- Botão de Fechar ('X') -->
+        <TextView
+            android:id="@+id/btnOverlayClose"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:gravity="center"
+            android:text="✕"
+            android:textColor="#ADB5BD"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Alerta de Área de Risco / Perigo (Fase 5) -->
+    <LinearLayout
+        android:id="@+id/layoutOverlayRiskArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#4DE53935"
+        android:padding="6dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvOverlayRiskAreaNotice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚠️ ÁREA DE RISCO DETECTADA"
+            android:textColor="#FF5252"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Destino e Bairro Reconhecido (Fase 5) -->
+    <LinearLayout
+        android:id="@+id/layoutOverlayDestination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📍 "
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvOverlayDestination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Entrega: Moema"
+            android:textColor="#E2E8F0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <!-- Badge de Multi-Pedidos / Rota Dupla (Fase 7) -->
+    <LinearLayout
+        android:id="@+id/layoutMultiOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#333B82F6"
+        android:padding="5dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvMultiOrderBadge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📦 Rota Dupla: 2 Entregas (R$ 9,25 / entrega)"
+            android:textColor="#60A5FA"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Métrica Principal: Lucro Líquido -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lucro Líquido: "
+            android:textColor="#CED4DA"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvOverlayNetProfit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$ 11,20"
+            android:textColor="#00E676"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Métricas Secundárias: Ganho por Km e Ganho por Hora -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/tvOverlayRatePerKm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$ 2,80/km"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/tvOverlayRatePerHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$ 32,00/h"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Alerta e Ação de Recusa Automática -->
+    <LinearLayout
+        android:id="@+id/layoutAutoRejectNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#33EF4444"
+        android:padding="6dp"
+        android:layout_marginTop="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvAutoRejectCountdown"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🔴 Recusando em 3s..."
+            android:textColor="#FF5252"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnCancelAutoReject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCELAR"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:background="#EF4444"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Alerta e Ação de Aceite Automático (Fase 6) -->
+    <LinearLayout
+        android:id="@+id/layoutAutoAcceptNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#3300E676"
+        android:padding="6dp"
+        android:layout_marginTop="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvAutoAcceptCountdown"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🟢 Aceitando em 1s..."
+            android:textColor="#00E676"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnCancelAutoAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCELAR"
+            android:textColor="#000000"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:background="#00E676"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Aviso do timer automático -->
+    <TextView
+        android:id="@+id/tvOverlayTimerNotice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha automaticamente em 12s"
+        android:textColor="#6C757D"
+        android:textSize="10sp"
+        android:gravity="end"
+        android:layout_marginTop="2dp" />
+
+</LinearLayout>

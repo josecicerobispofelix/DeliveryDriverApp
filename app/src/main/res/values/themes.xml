@@ -1,0 +1,17 @@
+<resources>
+    <style name="Theme.DeliveryDriverApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Tema Escuro Premium de Alto Contraste -->
+        <item name="android:windowBackground">#0B0F19</item>
+        <item name="colorSurface">#111827</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorPrimary">#00E676</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorSecondary">#10B981</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="editTextColor">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#9CA3AF</item>
+        <item name="android:textColorHint">#9CA3AF</item>
+    </style>
+</resources>

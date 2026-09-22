@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overlayMenuRoot"
+    android:layout_width="290dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_overlay_card"
+    android:padding="14dp"
+    android:elevation="12dp">
+
+    <!-- Header do Mini-Menu -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_kmcerto"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Logo KMCERTO" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="KMCERTO Rápido"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnMenuClose"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:gravity="center"
+            android:text="✕"
+            android:textColor="#9CA3AF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+    </LinearLayout>
+
+    <!-- Resumo dos Ganhos de Hoje -->
+    <LinearLayout
+        android:id="@+id/btnMenuSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#1E293B"
+        android:padding="12dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📊 Ganhos de Hoje (Turno)"
+            android:textColor="#9CA3AF"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tvMenuDailyNetProfit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$ 0,00"
+            android:textColor="#00E676"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvMenuDailyMetrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0,0 km rodados • 0 corridas"
+            android:textColor="#CBD5E1"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvMenuDailyGoalProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎯 Meta: R$ 0,00 / R$ 200 (0%)"
+            android:textColor="#38BDF8"
+            android:textSize="11sp"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+    <!-- Atalho 1: Ligar/Desligar Voz (Mudo Rápido) -->
+    <LinearLayout
+        android:id="@+id/btnMenuToggleVoice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#1F2937"
+        android:padding="10dp"
+        android:layout_marginBottom="6dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tvMenuVoiceIcon"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:text="🔊"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvMenuVoiceLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Avisos de Voz: Ativados"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMenuVoiceAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MUDAR"
+            android:textColor="#00E676"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Atalho 2: Abrir Aplicativo KMCERTO -->
+    <LinearLayout
+        android:id="@+id/btnMenuOpenApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#1F2937"
+        android:padding="10dp"
+        android:layout_marginBottom="6dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:text="⚙️"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Abrir Painel KMCERTO"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABRIR"
+            android:textColor="#3B82F6"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Atalho 3: Fechar Bolha Flutuante -->
+    <LinearLayout
+        android:id="@+id/btnMenuDismissBubble"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#1F2937"
+        android:padding="10dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:text="✕"
+            android:textColor="#EF4444"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fechar Bolha Flutuante"
+            android:textColor="#EF4444"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

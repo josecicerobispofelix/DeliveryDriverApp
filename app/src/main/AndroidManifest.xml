@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permissão para desenhar a janela flutuante (Overlay) sobre outros apps (iFood, Uber, 99) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Permissão para execução de serviço em primeiro plano -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Permissão de serviço em primeiro plano para casos de uso especiais (Android 14+ / API 34+) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- Permissão para exibir notificações persistentes do serviço (Android 13+ / API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_kmcerto"
+        android:label="KMCERTO"
+        android:roundIcon="@drawable/ic_kmcerto"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DeliveryDriverApp">
+        
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.HistoryActivity"
+            android:exported="true"
+            android:label="Histórico de Corridas" />
+
+        <!-- Serviço em primeiro plano para exibição da janela flutuante (Overlay) do semáforo -->
+        <service
+            android:name=".service.OverlayService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Janela flutuante (overlay) para cálculo de lucro em tempo real e auxílio de motoristas de aplicativos" />
+        </service>
+
+        <!-- Serviço de Acessibilidade para detecção e leitura em tempo real das ofertas das plataformas parceiras -->
+        <service
+            android:name=".service.DeliveryAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+    </application>
+
+</manifest>

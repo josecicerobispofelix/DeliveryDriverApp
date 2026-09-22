@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">KMCERTO</string>
+    <string name="accessibility_service_description">O KmCerto utiliza o serviço de acessibilidade exclusivamente para ler as informações de ofertas na tela (valor, distância e tempo) dos aplicativos de entrega parceiros (iFood, Uber e 99) e exibir instantaneamente o semáforo de lucro líquido.</string>
+</resources>

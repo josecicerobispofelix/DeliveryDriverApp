@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="#111827"
+    app:cardCornerRadius="12dp"
+    app:strokeColor="#1F2937"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Linha Topo: Plataforma, Data/Hora e Semáforo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvHistoryPlatform"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IFOOD"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:background="#EA1D2C"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp" />
+
+            <TextView
+                android:id="@+id/tvHistoryDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="21/09/2026 • 19:42"
+                android:textColor="#9CA3AF"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvHistoryStatusBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🟢 Boa"
+                android:textColor="#00E676"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Linha Central: Valores e Lucro Líquido -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHistoryNetProfit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ R$ 17,88"
+                    android:textColor="#00E676"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvHistoryGrossValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(Bruto: R$ 18,50)"
+                    android:textColor="#9CA3AF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvHistoryDistanceTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5,2 km • 18 min"
+                android:textColor="#E5E7EB"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="end" />
+        </LinearLayout>
+
+        <!-- Linha Inferior: Bairro / Destino (se houver) -->
+        <TextView
+            android:id="@+id/tvHistoryDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍 Entrega: Moema"
+            android:textColor="#94A3B8"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

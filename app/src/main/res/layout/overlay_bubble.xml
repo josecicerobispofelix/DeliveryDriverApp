@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bubbleRoot"
+    android:layout_width="54dp"
+    android:layout_height="54dp"
+    android:background="@drawable/bg_overlay_bubble"
+    android:elevation="8dp"
+    android:padding="5dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- Ícone compacto e perfeitamente dimensionado do logotipo KMCERTO -->
+    <ImageView
+        android:id="@+id/ivBubbleLogo"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_kmcerto"
+        android:contentDescription="KMCERTO" />
+
+    <!-- Indicador de status ativo (verde neon) no canto superior direito -->
+    <View
+        android:id="@+id/viewBubbleStatus"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/bg_circle_indicator" />
+
+</FrameLayout>

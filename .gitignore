@@ -1,0 +1,22 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+app/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+.kotlin
+
+# Built binaries
+*.apk
+*.aab
+
+# Testing artifacts and screenshots
+dump_*.xml
+screen_*.png
+brain_*.png
+logo.png*
